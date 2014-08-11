@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Agora',
+    'auth',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -82,6 +83,24 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+    )
+
+REPOS_ROOT = (
+    os.path.join(BASE_DIR,  'repo'),
+)
+
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'templates'),
 )
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = 'media/'
+
+
+FILE_UPLOAD_MAX_MEMORY_SIZE = 2.5
+# Directory where files larger than the above size are stored
+FILE_UPLOAD_TEMP_DIR = os.path.join(BASE_DIR, "media/temp")
+# Operating permissions for uploaded files (default 0600)
+FILE_UPLOAD_PERMISSIONS = 0600
