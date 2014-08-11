@@ -3,7 +3,7 @@ from Agora.models import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_protect
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, render
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
  
@@ -33,7 +33,7 @@ def newuser(request):
             except User.DoesNotExist:
                 return HttpResponseRedirect('/login/')
             else:
-                p = profiles(
+                p = Profiles(
                 user = userd,
                 blur = form.cleaned_data['aboutme'],
                 photo = form.cleaned_data['photo'],
@@ -54,12 +54,20 @@ def newuser(request):
 
     body = RequestContext(request, {'form' : form })
     return render_to_response('newuser.html', body,)
- 
+
+
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
- 
+
+
 @login_required
 def home(request):
     return render_to_response('home.html',{ 'user': request.user })
 
+
+def profile(request, username):
+    user = User.objects.get(username=username)
+    prof= Profiles.objects.get(user=user.id)
+    repo = None
+    return render(request, 'user.html',{'user':user, 'prof':prof, 'repo':repo})

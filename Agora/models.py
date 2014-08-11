@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
 
-class profiles(models.Model):
+class Profiles(models.Model):
     user =  models.OneToOneField(User)
     blur = models.TextField()
     photo = models.ImageField(upload_to='%Y/%m/%d', blank=True, null=True)
