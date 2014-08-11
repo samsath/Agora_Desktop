@@ -16,6 +16,4 @@ urlpatterns = patterns('',
     url(r'^newuser/$','Agora.views.newuser'),
     url(r'^home/$', 'Agora.views.home'),
 
-
-
 )

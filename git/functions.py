@@ -83,10 +83,14 @@ def userrepo(rname,uname):
     :return: boolean if worked
     """
     repo_dir = os.path.join(settings.REPOS_ROOT, rname)
-    repdb = Repository.objects.filter(name=rname)
-    if os.path.isdir(repo_dir) and repdb is not None:
-        repdb.user = uname
-        repdb.save()
-        return True
-    else:
+    try:
+        repdb = Repository.objects.get(name=rname)
+    except Repository.DoesNotExist:
         return False
+    else:
+        if os.path.isdir(repo_dir) and repdb is not None:
+            repdb.user = uname
+            repdb.save()
+            return True
+        else:
+            return False

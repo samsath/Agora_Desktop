@@ -22,3 +22,11 @@ class registrationForm(forms.Form):
             if self.cleaned_data['password1'] != self.cleaned_data['password2']:
                 raise forms.ValidationError(_("The two password fields did not match."))
         return self.cleaned_data
+
+class profileForm(forms.Form):
+
+    firstname = forms.CharField(label="First Name", required=True)
+    surname = forms.CharField(label="Last Name", required=True)
+    blur = forms.CharField(label="About You", required=True, widget=forms.Textarea)
+    photo = forms.ImageField(label="Select a photo", help_text="max.3MB")
+    role = forms.CharField(label="Your Role")

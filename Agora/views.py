@@ -1,4 +1,5 @@
 from Agora.forms import *
+from Agora.models import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_protect
@@ -19,12 +20,34 @@ def register(request):
             return HttpResponseRedirect('/newuser/')
     else:
         form = registrationForm()
-    variables = RequestContext(request, {'form': form })
+    body = RequestContext(request, {'form': form })
  
-    return render_to_response('register.html', variables,)
+    return render_to_response('register.html', body,)
  
 def newuser(request):
-    return render_to_response('newuser.html',{ 'user': request.user })
+    if request.methog == "POST":
+        form = profileForm(request.POST)
+        if form.is_valid():
+            p = profiles(
+                user=request.user,
+                blur=form.blur,
+                photo=form.photo,
+                role=form.role)
+            p.save()
+            try:
+                user = User.objects.get(username=request.user)
+            except User.DoesNotExist:
+                return HttpResponseRedirect('/login/')
+            else:
+                user.first_name = form.firstname
+                user.last_name = form.surname
+                user.save()
+            return HttpResponseRedirect('/'+request.user+'/')
+    else:
+        form = profileForm()
+
+    body = RequestContext(request, {'form' : form })
+    return render_to_response('newuser.html', body,)
  
 def logout_view(request):
     logout(request)
@@ -33,3 +56,4 @@ def logout_view(request):
 @login_required
 def home(request):
     return render_to_response('home.html',{ 'user': request.user })
+
