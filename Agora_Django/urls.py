@@ -6,10 +6,16 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'Agora_Django.views.home', name='home'),
+    url(r'^$', 'django.contrib.auth.views.login',{'template_name' : 'login.html'}),
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
-    (r'^login/$', 'Agora.views.login_view', {'template_name' : 'login.html'}),
+    url(r'^login/$', 'django.contrib.auth.views.login', {'template_name' : 'login.html'}),
+    url(r'^register/$','Agora.views.register'),
+    url(r'^logout/$','Agora.views.logout_view'),
+    url(r'^newuser/$','Agora.views.newuser'),
+    url(r'^home/$', 'Agora.views.home'),
+
+
 
 )

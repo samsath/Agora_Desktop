@@ -111,3 +111,6 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 2.5
 FILE_UPLOAD_TEMP_DIR = os.path.join(BASE_DIR, "media/temp")
 # Operating permissions for uploaded files (default 0600)
 FILE_UPLOAD_PERMISSIONS = 0600
+
+import django.contrib.auth
+django.contrib.auth.LOGIN_URL = '/'
