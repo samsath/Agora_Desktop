@@ -24,7 +24,7 @@ def register(request):
     return render_to_response('register.html', variables,)
  
 def newuser(request):
-    return render_to_response('newuse.html',{ 'user': request.user })
+    return render_to_response('newuser.html',{ 'user': request.user })
  
 def logout_view(request):
     logout(request)
