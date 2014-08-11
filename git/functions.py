@@ -1,6 +1,8 @@
 __author__ = 'sam'
 from git import *
 from django.conf import settings
+from models import Repository
+
 
 def get_completelist():
     """
@@ -57,7 +59,7 @@ def get_blob(name, commit, file):
 
 def create_repo(name):
     """
-    This will create a repo in the directory with the project name
+    This will create a repo in the directory with the project name then add it to the database
     :param name: ideal project name
     :return: either create or no
     """
@@ -69,5 +71,22 @@ def create_repo(name):
         os.makedirs(repo_dir)
         repo = Repo(repo_dir, bare=True)
         assert repo.bare == True
+        repodb = Repository(name=name,public=False,user='')
+        repodb.save()
         return True
 
+def userrepo(rname,uname):
+    """
+    This adds the user to a repostiory so they can access it.
+    :param rname: repository name
+    :param uname: user name
+    :return: boolean if worked
+    """
+    repo_dir = os.path.join(settings.REPOS_ROOT, rname)
+    repdb = Repository.objects.filter(name=rname)
+    if os.path.isdir(repo_dir) and repdb is not None:
+        repdb.user = uname
+        repdb.save()
+        return True
+    else:
+        return False
