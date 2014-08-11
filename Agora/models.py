@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class profiles(models.Model):
     user =  models.OneToOneField(User)
     blur = models.TextField()
-    photo = models.ImageField(upload_to="/media/profile/",blank=True, null=True)
+    photo = models.ImageField(upload_to='%Y/%m/%d', blank=True, null=True)
     role = models.CharField(max_length=20)
 
 class Notification(models.Model):

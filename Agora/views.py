@@ -25,24 +25,30 @@ def register(request):
     return render_to_response('register.html', body,)
  
 def newuser(request):
-    if request.methog == "POST":
-        form = profileForm(request.POST)
+    if request.method == "POST":
+        form = profileForm(request.POST, request.FILES)
         if form.is_valid():
-            p = profiles(
-                user=request.user,
-                blur=form.blur,
-                photo=form.photo,
-                role=form.role)
-            p.save()
             try:
-                user = User.objects.get(username=request.user)
+                userd = request.user
             except User.DoesNotExist:
                 return HttpResponseRedirect('/login/')
             else:
-                user.first_name = form.firstname
-                user.last_name = form.surname
-                user.save()
-            return HttpResponseRedirect('/'+request.user+'/')
+                p = profiles(
+                user = userd,
+                blur = form.cleaned_data['aboutme'],
+                photo = form.cleaned_data['photo'],
+                role = form.cleaned_data['role'],
+                )
+            p.save()
+            try:
+                usera = User.objects.get(username=request.user)
+            except User.DoesNotExist:
+                return HttpResponseRedirect('/login/')
+            else:
+                usera.first_name = form.cleaned_data['firstname']
+                usera.last_name = form.cleaned_data['surname']
+                usera.save()
+            return HttpResponseRedirect('/'+request.user.username+'/')
     else:
         form = profileForm()
 

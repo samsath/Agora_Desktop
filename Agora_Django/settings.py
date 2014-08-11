@@ -24,7 +24,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost',]
 
 
 # Application definition
@@ -106,7 +106,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = 'media/'
 
 
-FILE_UPLOAD_MAX_MEMORY_SIZE = 2.5
+FILE_UPLOAD_MAX_MEMORY_SIZE = 3
 # Directory where files larger than the above size are stored
 FILE_UPLOAD_TEMP_DIR = os.path.join(BASE_DIR, "media/temp")
 # Operating permissions for uploaded files (default 0600)

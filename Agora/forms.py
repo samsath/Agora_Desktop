@@ -27,6 +27,6 @@ class profileForm(forms.Form):
 
     firstname = forms.CharField(label="First Name", required=True)
     surname = forms.CharField(label="Last Name", required=True)
-    blur = forms.CharField(label="About You", required=True, widget=forms.Textarea)
-    photo = forms.ImageField(label="Select a photo", help_text="max.3MB")
+    aboutme = forms.CharField(label="About You", required=True, widget=forms.Textarea, max_length=500)
+    photo = forms.ImageField(label="Select a photo")
     role = forms.CharField(label="Your Role")
