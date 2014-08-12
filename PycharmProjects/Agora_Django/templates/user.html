@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Agora - {{ user.username }}{% endblock %}
+{% block head %}Agora - {{ user.username }}{% endblock %}
+{% block content %}
+    <p>Welcome {{ user.firstname }}</p>
+    <p>{{ prof.blur }}</p>
+    <p>{{ prof.role }}</p>
+
+    {% if repolist %}
+        <a href="">Create Project</a>
+            {% for item in repolist %}
+                <li>{{ item.name }}</li>
+            {% endfor %}
+    {% else %}
+        <li>There are no project connected to this user please create on!</li>
+        <a href="newproject/">Create Project</a>
+    {% endif %}
+
+    <a href="/logout/">Logout</a>
+{% endblock %}
