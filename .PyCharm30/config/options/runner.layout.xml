@@ -90,7 +90,7 @@
       </TabImpl>
       <TabImpl>
         <option name="bottomDetached" value="false" />
-        <option name="bottomProportion" value="0.5" />
+        <option name="bottomProportion" value="0.0" />
         <option name="centerDetached" value="false" />
         <option name="defaultIndex" value="2" />
         <option name="displayName" />
