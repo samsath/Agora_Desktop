@@ -75,7 +75,7 @@ def create_repo(name):
         repodb.save()
         return True
 
-def userrepo(rname,uname):
+def user_repo(rname,uname):
     """
     This adds the user to a repostiory so they can access it.
     :param rname: repository name
@@ -88,9 +88,40 @@ def userrepo(rname,uname):
     except Repository.DoesNotExist:
         return False
     else:
+        # add user to the repo information
+        repo = get_repo(rname)
+        config = repo.config_writer()
+        config.set_value(uname)
+
         if os.path.isdir(repo_dir) and repdb is not None:
             repdb.user = uname
             repdb.save()
             return True
         else:
             return False
+
+def add_file(rname,file):
+    """
+    Adds a new file to the repo
+    :param rname:  repository name
+    :param file: file location
+    :return: prints the new_commit so you can see if it works
+    """
+    repo = get_repo(rname)
+    index = repo.index()
+    index.add([file])
+    new_commit = index.commit("")
+    return new_commit
+
+def remove_file(rname,file):
+    """
+    Remove file form the repo
+    :param rname: repository name
+    :param file: file location
+    :return: prints the new_commit so you can see if it works
+    """
+    repo = get_repo(rname)
+    index = repo.index()
+    index.remove([file])
+    new_commit = index.commit("removed")
+    return new_commit
