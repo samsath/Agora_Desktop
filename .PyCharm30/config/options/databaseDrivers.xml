@@ -33,7 +33,14 @@
       <driver id="h2.in-memory" name="In-memory" />
     </driver>
     <driver id="sqlite" name="SQLite" dialect="SQLite">
-      <driver id="sqlite.xerial" name="Xerial" />
+      <driver id="sqlite.xerial" name="Xerial">
+        <library>
+          <url>file://$USER_HOME$/.PyCharm30/config/jdbc-drivers/xerial-sqlite-license.txt</url>
+        </library>
+        <library>
+          <url>file://$USER_HOME$/.PyCharm30/config/jdbc-drivers/sqlite-jdbc-3.7.6.3-20110609.081603-3.jar</url>
+        </library>
+      </driver>
       <driver id="sqlite.zentus" name="Zentus" />
     </driver>
     <driver id="odbc.sun" name="ODBC" />

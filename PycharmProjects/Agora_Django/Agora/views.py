@@ -99,7 +99,7 @@ def profile(request, username):
     This creates a profile page for each user, based on their username.
     So each page will be populated by that user's information
     """
-    user = User.objects.get(username=username)
+    user = User.objects.get(username=request.user)
     prof= Profiles.objects.get(user=user.id)
     try:
         repolist = Repository.objects.filter(user=user)
@@ -122,8 +122,8 @@ def CreateRepoForUser(request,username):
 
             if form.is_valid():
                 namerepo = form.cleaned_data['reponame']
-                if functions.create_repo(namerepo,request.user):
-                    functions.user_repo(namerepo,request.user.id)
+                if functions.create_repo(namerepo):
+                    functions.user_repo(namerepo,request.user)
                     return HttpResponseRedirect('/'+request.user.username+'/'+namerepo)
                 else:
                     return HttpResponseRedirect("/error/")

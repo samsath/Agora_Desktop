@@ -21,7 +21,7 @@ def get_repo(name):
     :param name: the name of the repo from the Agora_git dir
     :return: Agora_git active header for that project
     """
-    repo_dir = os.path.join(settings.REPOS_ROOT, name)
+    repo_dir = os.path.join(settings.REPO_ROOT, name)
     if os.path.isdir(repo_dir):
         try:
             return Repo(repo_dir)
@@ -60,7 +60,7 @@ def get_blob(name, commit, file):
             blob = t
     return blob
 
-def create_repo(rname,uname):
+def create_repo(rname):
     """
     This will create a repo in the directory with the project name then add it to the database
     :param name: ideal project name
@@ -76,12 +76,9 @@ def create_repo(rname,uname):
         assert repo.bare == True
         repo.config_writer()
 
-        usera = User.objects.get(username=uname)
-
         repodb = Repository(
             name = rname,
-            public = False,
-            user = usera,
+            public = False
         )
         repodb.save()
         return True
@@ -93,7 +90,7 @@ def user_repo(rname,uname):
     :param uname: user name
     :return: boolean if worked
     """
-    repo_dir = os.path.join(settings.REPOS_ROOT, rname)
+    repo_dir = os.path.join(settings.REPO_ROOT, rname)
     try:
         repdb = Repository.objects.get(name=rname)
     except Repository.DoesNotExist:
@@ -101,15 +98,25 @@ def user_repo(rname,uname):
     else:
         # add user to the repo information
         repo = get_repo(rname)
-        config = repo.config_writer()
-        config.set_value(uname)
-
-        if os.path.isdir(repo_dir) and repdb is not None:
-            repdb.user = uname
-            repdb.save()
-            return True
-        else:
+        try:
+            usera = User.objects.get(username=uname)
+        except User.DoesNotExist:
             return False
+        else:
+
+            config = repo.config_writer()
+            config.set_value(
+                uname.username,
+                uname.first_name,
+                uname.email
+            )
+
+            if os.path.isdir(repo_dir) and repdb is not None:
+                repdb.user.add(usera)
+                repdb.save()
+                return True
+            else:
+                return False
 
 def add_file(rname,file):
     """
