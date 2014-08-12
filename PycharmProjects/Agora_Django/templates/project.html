@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ repo.path }}
+{% endblock %}
+
+{% block main_content %}
+    {% if usera %}
+        <li><a href="{{ usera }}/{{ repo.path }}/createnote/">Create Note</a></li>
+        <li><a href="/logout">Log Out</a></li>
+     {% else %}
+        <li><a href="/login">Log In</a></li>
+     {% endif %}
+
+    <table border="0">
+        <tr>
+            <th>Commit</th>
+
+        </tr>
+        {% for commit in repo.commits %}
+        <tr>
+            <td><a href="{{ repo.path }}"></a></td>
+
+        </tr>
+        {% endfor %}
+    </table>
+    
+    {% if repo.heads %}
+        <h3>Heads</h3>
+        <ul>
+            {% for head in repo.heads %}
+            <li>{{ head.name }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
