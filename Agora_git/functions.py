@@ -7,16 +7,16 @@ from models import Repository
 def get_completelist():
     """
     This goes through the main repo fodler and displays all the projects.
-    :return: list of the git repo's on the server
+    :return: list of the Agora_git repo's on the server
     """
     repos = [get_repo(direct) for direct in os.listdir(settings.REPOS_ROOT)]
     return [rep for rep in repos if not (rep is None)]
 
 def get_repo(name):
     """
-    This returns git header of a repository
-    :param name: the name of the repo from the git dir
-    :return: git active header for that project
+    This returns Agora_git header of a repository
+    :param name: the name of the repo from the Agora_git dir
+    :return: Agora_git active header for that project
     """
     repo_dir = os.path.join(settings.REPOS_ROOT, name)
     if os.path.isdir(repo_dir):
