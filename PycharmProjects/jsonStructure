@@ -1,0 +1,14 @@
+{"note":[
+	"Creator":username,
+	"DateTime":Date and time of the creation,
+	"type":Type of the note
+	"Content":the content or external file location
+	"bg_colour":#Hex colour of background
+	"tx_colour":#Hex colour for the text
+	],
+	"Comment":[
+		{"User": username,
+		"DataTime":Time of the commet,
+		"Body":Comment text
+		}
+		]}
