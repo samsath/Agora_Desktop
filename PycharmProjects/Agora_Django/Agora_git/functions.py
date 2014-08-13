@@ -24,6 +24,7 @@ def get_repo(name):
     repo_dir = os.path.join(settings.REPO_ROOT, name)
     if os.path.isdir(repo_dir):
         try:
+            print Repo(repo_dir)
             return Repo(repo_dir)
         except Exception:
             pass
@@ -125,11 +126,13 @@ def add_file(rname,file):
     :param file: file location
     :return: prints the new_commit so you can see if it works
     """
+
     repo = get_repo(rname)
-    index = repo.index()
+    index = repo.index
     index.add([file])
     new_commit = index.commit("")
-    return new_commit
+
+    return True
 
 def remove_file(rname,file):
     """

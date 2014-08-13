@@ -160,21 +160,37 @@ def CreateRepoForUser(request,username):
 
 
 def repoProject(request,username,project):
+    path = os.path.join(settings.REPO_ROOT,project)
+    result = []
+    result += [ file for file in os.listdir(path) if file.endswith('.note')]
+    data = []
+    for file in result:
+        f = open(os.path.join(path,file),'r')
+        info = json.loads(f.read())
+        d ={}
+
+        d['name']=file[0:-5]
+        d['user']=info['note']['user']
+        d['content']=info['note']['content']
+        d['type']=info['note']['type']
+
+        data.append(d)
+
     if request.user.username == username:
         # make the project editable
-        body = {'usera':username, 'repo': functions.get_repo(project)}
+        body = {'usera':username, 'file': data}
     else:
         # can't be edited just viewed
-        body = {'repo': functions.get_repo(project)}
+        body = {'file': data}
     return render(request, 'project.html',body)
 
 
 
 @login_required(login_url='/login/')
 def new_note(request,username,project):
-    #repo = Repository.objects.get(name__iexact=project,user__iexact=request.user.id)
-    #print repo.name
-    #if True:
+    repo = Repository.objects.get(name__iexact=project,user__iexact=request.user.id)
+
+    if True:
         if request.method == "POST":
             noteform = NoteForm(request.POST)
 
@@ -193,6 +209,13 @@ def new_note(request,username,project):
                 output = open(os.path.join(settings.REPO_ROOT,project,filename),'w')
                 output.write(jsonfile)
                 output.close()
+                if functions.add_file(project,filename):
+                    return HttpResponseRedirect("/"+username+"/"+project)
+
+                else:
+                    errormesg = "Couldn't add note to the repository."
+                    return HttpResponseRedirect("/error/"+errormesg.replace(" ","_"))
+
 
 
         else:
@@ -200,12 +223,25 @@ def new_note(request,username,project):
 
         body = RequestContext(request, {'Noteform' : noteform})
         return render_to_response('createnote.html',body)
-   # else:
-   #     errormesg = "You don't have access to this project to add notes."
-    #    return HttpResponseRedirect("/error/"+errormesg.replace(" ","_"))
+    else:
+        errormesg = "You don't have access to this project to add notes."
+        return HttpResponseRedirect("/error/"+errormesg.replace(" ","_"))
 
 
 
 def error(request,mesg):
     body = {"mesg":mesg.replace("_"," ")}
     return render(request,'error.html',body)
+
+
+def view_note(request, username, project, note):
+    path = os.path.join(settings.REPO_ROOT,project,note)
+    f = open(path+".note",'r')
+    info = json.loads(f.read())
+    body ={}
+    body['name']=note
+    body['user']=info['note']['user']
+    body['content']=info['note']['content']
+    body['type']=info['note']['type']
+    print body
+    return render_to_response('view_note.html',body)

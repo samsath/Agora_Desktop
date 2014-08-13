@@ -20,4 +20,5 @@ urlpatterns = patterns('',
     url(r'^(?P<username>\w+)/newproject/$','Agora.views.CreateRepoForUser'),
     url(r'^(?P<username>\w+)/(?P<project>\w+)/$','Agora.views.repoProject'),
     url(r'^(?P<username>\w+)/(?P<project>\w+)/createnote/$','Agora.views.new_note'),
+    url(r'^(?P<username>\w+)/(?P<project>\w+)/(?P<note>\w+)/$','Agora.views.view_note'),
 )
