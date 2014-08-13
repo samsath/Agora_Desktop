@@ -72,8 +72,8 @@ def create_repo(rname):
         return False
     else:
         os.makedirs(repo_dir)
-        repo = Repo.init(repo_dir,bare=True)
-        assert repo.bare == True
+        repo = Repo.init(repo_dir,bare=False)
+        assert repo.bare == False
         repo.config_writer()
 
         repodb = Repository(

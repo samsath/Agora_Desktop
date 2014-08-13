@@ -7,9 +7,9 @@
     <p>{{ prof.role }}</p>
 
     {% if repolist %}
-        <a href="">Create Project</a>
+        <a href="newproject/">Create Project</a>
             {% for item in repolist %}
-                <li>{{ item.name }}</li>
+                <li><a href="{{ item.name }}">{{ item.name }}</a></li>
             {% endfor %}
     {% else %}
         <li>There are no project connected to this user please create on!</li>

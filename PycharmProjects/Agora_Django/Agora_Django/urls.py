@@ -18,6 +18,6 @@ urlpatterns = patterns('',
     url(r'^error/(?P<mesg>\w+)','Agora.views.error'),
     url(r'^(?P<username>\w+)/$','Agora.views.profile',name='profile_view'),
     url(r'^(?P<username>\w+)/newproject/$','Agora.views.CreateRepoForUser'),
-    url(r'^(?P<username>\w+)/(?P<project>\w+)','Agora.views.repoProject'),
-    url(r'^(?P<username>\w+)/(?P<project>\w+)/newnote/$','Agora.views.new_note'),
+    url(r'^(?P<username>\w+)/(?P<project>\w+)/$','Agora.views.repoProject'),
+    url(r'^(?P<username>\w+)/(?P<project>\w+)/createnote/$','Agora.views.new_note'),
 )

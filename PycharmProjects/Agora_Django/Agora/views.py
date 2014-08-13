@@ -8,6 +8,10 @@ from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from Agora_git import functions
 from Agora_git.models import *
+import json
+import time
+from Agora_Django import settings
+import os
 
  
 @csrf_protect
@@ -22,9 +26,9 @@ def register(request):
         # checks if the form data is valid if so then adds the user to the database.
         if form.is_valid():
             user = User.objects.create_user(
-            username=form.cleaned_data['username'],
-            password=form.cleaned_data['password1'],
-            email=form.cleaned_data['email']
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password1'],
+                email=form.cleaned_data['email']
             )
             # this then logs the user into the system
             loginUser = authenticate(username=form.cleaned_data['username'],
@@ -59,10 +63,10 @@ def newuser(request):
             else:
                 # this adds the profile information to the database
                 p = Profiles(
-                user = usera,
-                blur = form.cleaned_data['aboutme'],
-                photo = form.cleaned_data['photo'],
-                role = form.cleaned_data['role'],
+                    user = usera,
+                    blur = form.cleaned_data['aboutme'],
+                    photo = form.cleaned_data['photo'],
+                    role = form.cleaned_data['role'],
                 )
                 p.save()
 
@@ -94,7 +98,7 @@ def home(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect('/'+request.user.username+'/')
     else:
-        return HttpResponseRedirect('/');
+        return HttpResponseRedirect('/')
 
 
 
@@ -111,8 +115,8 @@ def profile(request, username):
     except Repository.DoesNotExist:
         return render(request, 'user.html',{'user':user, 'prof':prof })
     else:
-        for item in repolist:
-            item.name = item.name.replace("_"," ")
+        #for item in repolist:
+         #   item.name = item.name.replace("_"," ")
 
         return render(request, 'user.html',{'user':user, 'prof':prof, 'repolist':repolist})
 
@@ -168,25 +172,37 @@ def repoProject(request,username,project):
 
 @login_required(login_url='/login/')
 def new_note(request,username,project):
-    repo = Repository.objects.get(name__iexact=project,user__iexact=request.user)
-    if repo:
+    #repo = Repository.objects.get(name__iexact=project,user__iexact=request.user.id)
+    #print repo.name
+    #if True:
         if request.method == "POST":
             noteform = NoteForm(request.POST)
 
             if noteform.is_valid():
-                # create the json here
-                content = noteform.cleaned_data['content']
-                background = noteform.cleaned_data['bg_colour']
-                text_colour = noteform.cleaned_data['tx_colour']
+                # create the json here on the temp dir
+
+                jsonfile = json.dumps({"note":{
+                    "user":request.user.username,
+                    "datetime": int(time.time()),
+                    "type":"html",
+                    "content": noteform.cleaned_data['content'],
+                    "bg": noteform.cleaned_data['bg_colour'],
+                    "tx": noteform.cleaned_data['tx_colour'],
+                },"comment":{}})
+                filename = u"{date}{user}server.note".format(date=int(time.time()),user=request.user.username)
+                output = open(os.path.join(settings.REPO_ROOT,project,filename),'w')
+                output.write(jsonfile)
+                output.close()
+
 
         else:
             noteform = NoteForm()
 
         body = RequestContext(request, {'Noteform' : noteform})
         return render_to_response('createnote.html',body)
-    else:
-        errormesg = "You don't have access to this project to add notes."
-        return HttpResponseRedirect("/error/"+errormesg.replace(" ","_"))
+   # else:
+   #     errormesg = "You don't have access to this project to add notes."
+    #    return HttpResponseRedirect("/error/"+errormesg.replace(" ","_"))
 
 
 

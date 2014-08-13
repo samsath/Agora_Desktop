@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Agora - Create new Note{% endblock %}
+{% block head %}New Note{% endblock %}
+{% block content %}
+    <h1>New Note</h1>
+    <form method="post" action=".">{% csrf_token %}
+        <table border="0">
+            {{ Noteform.as_table }}
+        </table>
+        <input type="submit" value="Create" />
+    </form>
+{% endblock %}
