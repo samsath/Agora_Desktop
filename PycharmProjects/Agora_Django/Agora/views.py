@@ -38,6 +38,8 @@ def register(request):
  
     return render_to_response('register.html', body,)
 
+
+
 @login_required(login_url='/login/')
 def newuser(request):
     """
@@ -75,6 +77,7 @@ def newuser(request):
     return render_to_response('newuser.html', body,)
 
 
+
 def logout_view(request):
     """
     This logs the individual out of the system
@@ -93,6 +96,8 @@ def home(request):
     else:
         return HttpResponseRedirect('/');
 
+
+
 @login_required(login_url='/login/')
 def profile(request, username):
     """
@@ -106,7 +111,12 @@ def profile(request, username):
     except Repository.DoesNotExist:
         return render(request, 'user.html',{'user':user, 'prof':prof })
     else:
+        for item in repolist:
+            item.name = item.name.replace("_"," ")
+
         return render(request, 'user.html',{'user':user, 'prof':prof, 'repolist':repolist})
+
+
 
 def frontpage(request):
     """
@@ -114,8 +124,16 @@ def frontpage(request):
     """
     return render(request, 'frontpage.html',{'note':"hello"})
 
+
+
 @login_required(login_url='/login/')
 def CreateRepoForUser(request,username):
+    """
+    This will set up the form for a new project(repo) for the user to add work to
+    :param request:  normal request
+    :param username: user name of where the project will be connected to.
+    :return:
+    """
     if username == request.user.username:
         if request.method == "POST":
             form = NewRepoForm(request.POST)
@@ -126,7 +144,8 @@ def CreateRepoForUser(request,username):
                     functions.user_repo(namerepo,request.user)
                     return HttpResponseRedirect('/'+request.user.username+'/'+namerepo)
                 else:
-                    return HttpResponseRedirect("/error/")
+                    errormesg = "Could not create a new project for some reason, possilbe one already exists."
+                    return HttpResponseRedirect("/error/"+errormesg.replace(" ","_"))
         else:
             form = NewRepoForm()
         body = RequestContext(request, {'form' : form })
@@ -134,11 +153,43 @@ def CreateRepoForUser(request,username):
     else:
         return HttpResponseRedirect('/'+request.user.username+'/')
 
+
+
 def repoProject(request,username,project):
     if request.user.username == username:
         # make the project editable
-        body = {'usera':username, 'repo':functions.get_repo(project)}
+        body = {'usera':username, 'repo': functions.get_repo(project)}
     else:
         # can't be edited just viewed
-        body = {'repo':functions.get_repo(project)}
+        body = {'repo': functions.get_repo(project)}
     return render(request, 'project.html',body)
+
+
+
+@login_required(login_url='/login/')
+def new_note(request,username,project):
+    repo = Repository.objects.get(name__iexact=project,user__iexact=request.user)
+    if repo:
+        if request.method == "POST":
+            noteform = NoteForm(request.POST)
+
+            if noteform.is_valid():
+                # create the json here
+                content = noteform.cleaned_data['content']
+                background = noteform.cleaned_data['bg_colour']
+                text_colour = noteform.cleaned_data['tx_colour']
+
+        else:
+            noteform = NoteForm()
+
+        body = RequestContext(request, {'Noteform' : noteform})
+        return render_to_response('createnote.html',body)
+    else:
+        errormesg = "You don't have access to this project to add notes."
+        return HttpResponseRedirect("/error/"+errormesg.replace(" ","_"))
+
+
+
+def error(request,mesg):
+    body = {"mesg":mesg.replace("_"," ")}
+    return render(request,'error.html',body)

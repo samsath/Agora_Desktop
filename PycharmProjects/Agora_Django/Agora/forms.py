@@ -45,3 +45,15 @@ class NewRepoForm(forms.Form):
         except Repository.DoesNotExist:
             return value
         raise forms.ValidationError("Project already exists")
+
+
+class NoteForm(forms.Form):
+
+    content = forms.CharField(label="Note", widget=forms.Textarea)
+    bg_colour = forms.CharField(max_length=8)
+    tx_colour = forms.CharField(max_length=8)
+
+
+class NoteCommentForm(forms.Form):
+
+    comment = forms.CharField(label="Comment", widget=forms.Textarea)
