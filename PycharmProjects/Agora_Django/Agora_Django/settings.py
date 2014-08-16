@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'Agora',
     'Agora_git',
+    'Agora_android',
 )
 
 MIDDLEWARE_CLASSES = (

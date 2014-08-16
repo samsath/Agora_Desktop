@@ -13,3 +13,4 @@ class Repository(models.Model):
     name = models.CharField(max_length=100)
     public = models.BooleanField()
     user =  models.ManyToManyField(User)
+    hashurl = models.CharField(max_length=100)

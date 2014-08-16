@@ -2,6 +2,8 @@ from django.conf.urls import patterns, include, url
 
 
 from django.contrib import admin
+
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -10,6 +12,7 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^system/admin/', include(admin.site.urls)),
+    url(r'^app/(?P<username>\w+)/$','Agora_android.views.appLogins'),
     url(r'^login/$', 'django.contrib.auth.views.login', {'template_name' : 'login.html'}),
     url(r'^register/$','Agora.views.register'),
     url(r'^logout/$','Agora.views.logout_view'),
@@ -21,4 +24,5 @@ urlpatterns = patterns('',
     url(r'^(?P<username>\w+)/(?P<project>\w+)/$','Agora.views.repoProject'),
     url(r'^(?P<username>\w+)/(?P<project>\w+)/createnote/$','Agora.views.new_note'),
     url(r'^(?P<username>\w+)/(?P<project>\w+)/(?P<note>\w+)/$','Agora.views.view_note'),
+
 )
