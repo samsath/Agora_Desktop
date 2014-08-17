@@ -4,6 +4,7 @@ from git import *
 from django.conf import settings
 from models import Repository
 from django.contrib.auth.models import User
+import time
 
 
 
@@ -76,10 +77,13 @@ def create_repo(rname):
         repo = Repo.init(repo_dir,bare=False)
         assert repo.bare == False
         repo.config_writer()
+        random = User.objects.make_random_password(100,'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
+        hashcode = str(int(time.time()))+"_"+random
 
         repodb = Repository(
             name = rname,
-            public = False
+            public = False,
+            hashurl = hashcode,
         )
         repodb.save()
         return True

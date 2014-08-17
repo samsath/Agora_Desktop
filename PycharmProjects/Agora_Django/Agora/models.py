@@ -13,3 +13,5 @@ class Notification(models.Model):
     userfrom = models.OneToOneField(User, related_name='from')
     body = models.TextField()
     datetofrom = models.DateTimeField()
+
+    # user, blur, photo, , first name, last name, email

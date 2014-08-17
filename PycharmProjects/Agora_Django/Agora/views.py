@@ -158,7 +158,6 @@ def CreateRepoForUser(request,username):
         return HttpResponseRedirect('/'+request.user.username+'/')
 
 
-
 def repoProject(request,username,project):
     path = os.path.join(settings.REPO_ROOT,project)
     result = []
@@ -188,9 +187,9 @@ def repoProject(request,username,project):
 
 @login_required(login_url='/login/')
 def new_note(request,username,project):
-    repo = Repository.objects.get(name__iexact=project,user__iexact=request.user.id)
+    repo = Repository.objects.get(name__contains=project,user=request.user)
 
-    if True:
+    if(repo is not 0):
         if request.method == "POST":
             noteform = NoteForm(request.POST)
 
