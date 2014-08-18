@@ -1,6 +1,6 @@
 __author__ = 'sam'
 import os
-from git import *
+
 from django.conf import settings
 from models import Repository
 from django.contrib.auth.models import User
@@ -30,6 +30,26 @@ def get_repo(name):
         except Exception:
             pass
     return None
+
+def getFileRepo(name):
+    """
+    path = os.path.join(settings.REPO_ROOT,project)
+    result = []
+    result += [ file for file in os.listdir(path) if file.endswith('.note')]
+    :param name:
+    :return:
+    """
+    print name
+    result=[]
+    repo_dir = os.path.join(settings.REPO_ROOT, name)
+    if os.path.isdir(repo_dir):
+        result += [ [file.title(),int(os.path.getmtime(repo_dir+"/"+file))] for file in os.listdir(repo_dir) if file.endswith('.note')]
+    else:
+        return None
+
+    return result
+
+
 
 def get_commit(name,commit):
     """
@@ -74,9 +94,6 @@ def create_repo(rname):
         return False
     else:
         os.makedirs(repo_dir)
-        repo = Repo.init(repo_dir,bare=False)
-        assert repo.bare == False
-        repo.config_writer()
         random = User.objects.make_random_password(100,'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
         hashcode = str(int(time.time()))+"_"+random
 

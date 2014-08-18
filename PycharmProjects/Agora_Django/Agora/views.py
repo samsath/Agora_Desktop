@@ -43,7 +43,7 @@ def register(request):
     return render_to_response('register.html', body,)
 
 
-
+@csrf_protect
 @login_required(login_url='/login/')
 def newuser(request):
     """
@@ -90,6 +90,7 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
 
+@csrf_protect
 @login_required(login_url='/login/')
 def home(request):
     """
@@ -101,7 +102,7 @@ def home(request):
         return HttpResponseRedirect('/')
 
 
-
+@csrf_protect
 @login_required(login_url='/login/')
 def profile(request, username):
     """
@@ -129,7 +130,7 @@ def frontpage(request):
     return render(request, 'frontpage.html',{'note':"hello"})
 
 
-
+@csrf_protect
 @login_required(login_url='/login/')
 def CreateRepoForUser(request,username):
     """
@@ -157,7 +158,7 @@ def CreateRepoForUser(request,username):
     else:
         return HttpResponseRedirect('/'+request.user.username+'/')
 
-
+@csrf_protect
 def repoProject(request,username,project):
     path = os.path.join(settings.REPO_ROOT,project)
     result = []
@@ -184,7 +185,7 @@ def repoProject(request,username,project):
     return render(request, 'project.html',body)
 
 
-
+@csrf_protect
 @login_required(login_url='/login/')
 def new_note(request,username,project):
     repo = Repository.objects.get(name__contains=project,user=request.user)
@@ -232,7 +233,7 @@ def error(request,mesg):
     body = {"mesg":mesg.replace("_"," ")}
     return render(request,'error.html',body)
 
-
+@csrf_protect
 def view_note(request, username, project, note):
     path = os.path.join(settings.REPO_ROOT,project,note)
     f = open(path+".note",'r')
