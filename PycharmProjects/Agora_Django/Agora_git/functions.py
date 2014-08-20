@@ -126,12 +126,12 @@ def user_repo(rname,uname):
             return False
         else:
 
-            config = repo.config_writer()
-            config.set_value(
-                uname.username,
-                uname.first_name,
-                uname.email
-            )
+            #config = repo.config_writer()
+            #config.set_value(
+            #    uname.username,
+            #    uname.first_name,
+            #    uname.email
+            #)
 
             if os.path.isdir(repo_dir) and repdb is not None:
                 repdb.user.add(usera)

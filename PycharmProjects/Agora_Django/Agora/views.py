@@ -206,23 +206,21 @@ def new_note(request,username,project):
                     "tx": noteform.cleaned_data['tx_colour'],
                 },"comment":{}})
                 filename = u"{date}{user}server.note".format(date=int(time.time()),user=request.user.username)
-                output = open(os.path.join(settings.REPO_ROOT,project,filename),'w')
+                output = open(os.path.join(settings.REPO_ROOT,project,filename.lower()),'w')
                 output.write(jsonfile)
                 output.close()
-                if functions.add_file(project,filename):
-                    return HttpResponseRedirect("/"+username+"/"+project)
+                #if functions.add_file(project,filename):
+                return HttpResponseRedirect("/"+username+"/"+project)
 
-                else:
-                    errormesg = "Couldn't add note to the repository."
-                    return HttpResponseRedirect("/error/"+errormesg.replace(" ","_"))
-
-
+                #else:
+                #    errormesg = "Couldn't add note to the repository."
+                #    return HttpResponseRedirect("/error/"+errormesg.replace(" ","_"))
 
         else:
             noteform = NoteForm()
 
-        body = RequestContext(request, {'Noteform' : noteform})
-        return render_to_response('createnote.html',body)
+            body = RequestContext(request, {'Noteform' : noteform})
+            return render_to_response('createnote.html',body)
     else:
         errormesg = "You don't have access to this project to add notes."
         return HttpResponseRedirect("/error/"+errormesg.replace(" ","_"))
