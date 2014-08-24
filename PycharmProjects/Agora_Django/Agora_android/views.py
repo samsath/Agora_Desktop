@@ -254,5 +254,8 @@ def repoCheckNote(request,pname,nnote):
 
 
 
+def addUserToRepo(request,pname,uname):
+    ## TODO finish this but so that it adds a user to the repo.
+    return None
 
 
