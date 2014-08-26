@@ -1,0 +1,37 @@
+
+div#namebox {
+    background-color: #2d2d2d;
+    border: 0 solid;
+    border-radius: 5px;
+    height: 90px;
+    left: 35%;
+    position: absolute;
+    top: 40%;
+    width: 361px;
+}
+#btnCreate {
+    border: 0 solid;
+    border-radius: 0;
+    top: 25px;
+    height: 25px;
+    left: 100px;
+    position: relative;
+    width: 150px;
+    color: #2d2d2d;
+}
+label#reponame {
+    color: #e1e1e1;
+    position: relative;
+    top: 15px;
+    left: 5px;
+}
+input#id_reponame {
+    border: 0 solid;
+    border-radius: 0;
+    top: 15px;
+    left: 5px;
+    position: relative;
+    height: 25px;
+    width: 220px;
+    color: #2d2d2d;
+}

@@ -1,0 +1,50 @@
+
+div#newProjectBtn {
+    background-color: #2e2e2e;
+    border-radius: 5px;
+    height: 40px;
+    position: absolute;
+    top: 80px;
+    width: 208px;
+    left: 20px;
+}
+a#newProjectBtn {
+    color: #ff6600;
+    left: 38px;
+    position: relative;
+    text-decoration: none;
+    top: 9px;
+}
+div#repoList {
+    background-color: #2e2e2e;
+    border: 5px solid #2e2e2e;
+    border-radius: 5px;
+    height: 65%;
+    left: 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
+    top: 131px;
+    width: 200px;
+    z-index: -2;
+}
+div.repoitems {
+    background: none repeat scroll 0 0 #999999;
+    border: 1px solid #999999;
+    border-radius: 5px;
+    margin: 5px;
+    z-index: -1;
+}
+a {
+    color: #e1e1e1;
+    text-decoration: none;
+}
+div#contentSection {
+    background-color: rgba(225, 225, 225, 0.6);
+    height: calc(100% - 50px);
+    left: 20%;
+    position: absolute;
+    right: 10%;
+    top: 50px;
+    z-index: -1;
+}

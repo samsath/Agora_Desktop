@@ -1,11 +1,18 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% block title %}Agora - Create new Project{% endblock %}
-{% block head %}New Project{% endblock %}
+{% block cs %}
+    <link href="{% static "cs/createrepoNote.css" %}" type="text/css" rel="stylesheet">
+{% endblock %}
 {% block content %}
+    <div id="namebox">
     <form method="post" action=".">{% csrf_token %}
-        <table border="0">
-            {{ form.as_table }}
-        </table>
-        <input type="submit" value="Create" />
+
+            {{ form.subject.errors }}
+            <label id="reponame" for="id_reponame">Project Name</label>
+            {{  form.reponame }}
+
+        <input id="btnCreate" type="submit" value="Create" />
     </form>
+    </div>
 {% endblock %}

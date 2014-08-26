@@ -1,20 +1,37 @@
 {% extends "base.html" %}
-{% block title %}Agora - {{ user.username }}{% endblock %}
-{% block head %}Agora - {{ user.username }}{% endblock %}
+{% load staticfiles %}
+{% block cs %}
+    <link href="{% static "cs/profile.css" %}" type="text/css" rel="stylesheet">
+{% endblock %}
+{% block js %}
+    <script type="application/javascript" src="{% static "js/freewall.js" %}"></script>
+    <script type="application/javascript">
+        var notelist = JSON.parse('{{ file|safe }}');
+    </script>
+    <script type="application/javascript" src="{% static "js/notes.js" %}"></script>
+
+{% endblock %}
+{% block pagename %} <h2 id="projectTitle">{{ user.username }}'s Projects</h2>{% endblock %}
+{% block creater %}{% url 'Agora.views.CreateRepoForUser' user.username %}{% endblock %}
 {% block content %}
-    <p>Welcome {{ user.first_name }}</p>
-    <p>{{ prof.blur }}</p>
-    <p>{{ prof.role }}</p>
 
-    {% if repolist %}
-        <a href="newproject/">Create Project</a>
-            {% for item in repolist %}
-                <li><a href="{{ item.name }}">{{ item.name }}</a></li>
-            {% endfor %}
-    {% else %}
-        <li>There are no project connected to this user please create on!</li>
-        <a href="newproject/">Create Project</a>
-    {% endif %}
+    <div id="newProjectBtn">
+         <a id="newProjectBtn" href="newproject/">Create Project</a>
+    </div>
+    <div id="repoList">
+        {% if repolist %}
+                {% for item in repolist %}
+                   <div class="repoitems"><a href="{{ item.name }}">{{ item.name }}</a></div>
+                {% endfor %}
+        {% else %}
+            <li>There are no project connected to this user please create on!</li>
+            <a href="newproject/">Create Project</a>
+        {% endif %}
+    </div>
 
-    <a href="/logout/">Logout</a>
+     <div id="contentSection">
+        <div id="firewall">
+        </div>
+    </div>
+
 {% endblock %}

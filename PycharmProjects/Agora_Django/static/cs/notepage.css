@@ -1,0 +1,212 @@
+
+div#note {
+    background-color: rgba(225, 225, 225, 0.6);
+    font-size: x-large;
+    height: calc(100% - 50px);
+    left: 20%;
+    position: absolute;
+    top: 50px;
+    width: 650px;
+}
+div#comments {
+    background-color: #e1e1e1;
+    border: 5px solid #e1e1e1;
+    border-radius: 5px;
+    height: 65%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
+    right: 5%;
+    top: 30%;
+    width: 300px;
+    z-index: -2;
+}
+div.com {
+    background: none repeat scroll 0 0 #999999;
+    border: 1px solid #999999;
+    border-radius: 5px;
+    margin: 5px;
+    z-index: -1;
+}
+div#editButton {
+    background: none repeat scroll 0 0 #2e2e2e;
+    border: 0 solid;
+    border-radius: 5px;
+    height: 40px;
+    left: 40px;
+    position: absolute;
+    top: 60px;
+    width: 100px;
+}
+h3#editName {
+    bottom: 10px;
+    color: #ff6600;
+    left: 25px;
+    position: relative;
+}
+p#notecontent {
+    margin: 5px;
+}
+p#user {
+    color: #e1e1e1;
+    font-size: small;
+    font-style: italic;
+    left: 10px;
+    position: relative;
+    top: -10px;
+}
+p#body {
+    font-size: medium;
+    left: 5px;
+    position: relative;
+    top: -25px;
+}
+div#commentForm {
+    background: none repeat scroll 0 0 #999999;
+    border: 5px solid #e1e1e1;
+    border-radius: 5px;
+    height: 150px;
+    position: absolute;
+    right: 5%;
+    top: 89px;
+    width: 301px;
+    z-index: -4;
+}
+label#uname {
+    color: #e1e1e1;
+    left: 7px;
+    position: relative;
+    top: 4px;
+}
+input#id_user {
+    background: none repeat scroll 0 0 #e1e1e1;
+    border: 0 none;
+    left: 10px;
+    position: relative;
+    resize: none;
+    top: 5px;
+    width: 226px;
+}
+textarea#id_comment {
+    background: none repeat scroll 0 0 #e1e1e1;
+    border: 0 solid;
+    left: 2px;
+    overflow: auto;
+    position: relative;
+    resize: none;
+    top: 10px;
+}
+input#comsubmit {
+    border: 0 none;
+    color: #ff6600;
+    height: 25px;
+    left: 87px;
+    position: relative;
+    top: 20px;
+    width: 120px;
+}
+h4#commentSent {
+    color: #e1e1e1;
+    font-size: x-large;
+    left: 32px;
+    position: relative;
+    top: 21px;
+}
+div#notespec {
+    background: none repeat scroll 0 0 #2d2d2d;
+    height: 225px;
+    left: 45px;
+    position: absolute;
+    top: 150px;
+    width: 150px;
+    border-radius: 5px;
+    visibility: hidden;
+}
+textarea#id_noteForm-0-content {
+    border: 0 solid;
+    height: calc(100%);
+    position: absolute;
+    resize: none;
+    top: -1px;
+    width: 650px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+input#formSave {
+    border: 0 none;
+    height: 40px;
+    left: 26px;
+    position: absolute;
+    width: 100px;
+    top: 10px;
+}
+input#id_noteForm-0-bg_colour {
+    visibility: hidden;
+}
+input#id_noteForm-0-tx_colour {
+    visibility: hidden;
+}
+
+img#bgChange {
+    position: relative;
+    top: 55px;
+    left: -42px;
+}
+img#txChange {
+    position: relative;
+    top: 140px;
+    left: 40px;
+}
+
+div#colourPalete {
+    background-color: #999999;
+    position: absolute;
+    width: 101px;
+    border: 2px solid #2d2d2d;
+    border-radius: 5px;
+    padding: 5px;
+    left: 62px;
+    top: 400px;
+    visibility: hidden;
+}
+
+img#ff6600{
+    position: relative;
+
+}
+
+img#2d2d2d{
+    position: relative;
+}
+
+img#104ba9{
+    position: relative;
+}
+
+img#1db312{
+    position: relative;
+}
+
+img#e0e0e0{
+    position: relative;
+}
+
+img#ff270d{
+    position: relative;
+}
+
+img#51dee0{
+    position: relative;
+}
+
+img#ffcb25{
+    position: relative;
+}
+
+img#834c24{
+    position: relative;
+}
+
+img#00ff00{
+    position: relative;
+}

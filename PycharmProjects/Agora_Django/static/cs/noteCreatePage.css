@@ -1,0 +1,109 @@
+
+div#note {
+    background-color: rgba(225, 225, 225, 0.6);
+    font-size: x-large;
+    height: calc(100% - 50px);
+    left: 20%;
+    position: absolute;
+    top: 50px;
+    width: 650px;
+}
+
+
+div#notespec {
+    background: none repeat scroll 0 0 #2d2d2d;
+    height: 225px;
+    left: 45px;
+    position: absolute;
+    top: 150px;
+    width: 150px;
+    border-radius: 5px;
+}
+textarea#id_content {
+    border: 0 solid;
+    height: calc(100%);
+    position: absolute;
+    resize: none;
+    top: -1px;
+    width: 650px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+input#formSave {
+    border: 0 none;
+    height: 40px;
+    left: 26px;
+    position: absolute;
+    width: 100px;
+    top: 10px;
+}
+input#id_bg_colour {
+    visibility: hidden;
+}
+input#id_tx_colour {
+    visibility: hidden;
+}
+
+img#bgChange {
+    position: relative;
+    top: 55px;
+    left: -42px;
+}
+img#txChange {
+    position: relative;
+    top: 140px;
+    left: 40px;
+}
+
+div#colourPalete {
+    background-color: #999999;
+    position: absolute;
+    width: 101px;
+    border: 2px solid #2d2d2d;
+    border-radius: 5px;
+    padding: 5px;
+    left: 62px;
+    top: 400px;
+    visibility: hidden;
+}
+
+img#ff6600{
+    position: relative;
+
+}
+
+img#2d2d2d{
+    position: relative;
+}
+
+img#104ba9{
+    position: relative;
+}
+
+img#1db312{
+    position: relative;
+}
+
+img#e0e0e0{
+    position: relative;
+}
+
+img#ff270d{
+    position: relative;
+}
+
+img#51dee0{
+    position: relative;
+}
+
+img#ffcb25{
+    position: relative;
+}
+
+img#834c24{
+    position: relative;
+}
+
+img#00ff00{
+    position: relative;
+}

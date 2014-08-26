@@ -1,10 +1,12 @@
+from django.forms.formsets import formset_factory
 from Agora.forms import *
 from Agora.models import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, authenticate, login
+from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect
 from django.shortcuts import render_to_response, render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 from Agora_git import functions
 from Agora_git.models import *
@@ -116,18 +118,28 @@ def profile(request, username):
     except Repository.DoesNotExist:
         return render(request, 'user.html',{'user':user, 'prof':prof })
     else:
-        #for item in repolist:
-         #   item.name = item.name.replace("_"," ")
+        data = []
+        for item in repolist:
+            path = os.path.join(settings.REPO_ROOT,item.name)
+            result = []
+            result += [ file for file in os.listdir(path) if file.endswith('.note')]
 
-        return render(request, 'user.html',{'user':user, 'prof':prof, 'repolist':repolist})
+            for file in result:
+                f = open(os.path.join(path,file),'r')
+                info = json.loads(f.read())
+                d ={}
 
+                d['name']=item.name+"/"+file[0:-5]
+                d['user']=info['note']['user']
+                d['content']=info['note']['content']
+                d['tx']=info['note']['tx']
+                d['bg']=info['note']['bg']
 
+                data.append(d)
+            #item.name = item.name.replace("_"," ")
 
-def frontpage(request):
-    """
-    The frontpage of the whole project
-    """
-    return render(request, 'frontpage.html',{'note':"hello"})
+        return render(request, 'user.html',{'user':user, 'prof':prof, 'repolist':repolist,'file': json.dumps(data)})
+
 
 
 @csrf_protect
@@ -172,16 +184,17 @@ def repoProject(request,username,project):
         d['name']=file[0:-5]
         d['user']=info['note']['user']
         d['content']=info['note']['content']
-        d['type']=info['note']['type']
+        d['tx']=info['note']['tx']
+        d['bg']=info['note']['bg']
 
         data.append(d)
 
     if request.user.username == username:
         # make the project editable
-        body = {'usera':username, 'file': data}
+        body = {'usera':username, 'file': json.dumps(data),'repo':project,'reponame':project.replace("_"," ")}
     else:
         # can't be edited just viewed
-        body = {'file': data}
+        body = {'file': json.dumps(data),'repo':project,'reponame':project.replace("_"," ")}
     return render(request, 'project.html',body)
 
 
@@ -204,7 +217,7 @@ def new_note(request,username,project):
                     "content": noteform.cleaned_data['content'],
                     "bg": noteform.cleaned_data['bg_colour'],
                     "tx": noteform.cleaned_data['tx_colour'],
-                },"comment":{}})
+                },"comment":[]})
                 filename = u"{date}{user}server.note".format(date=int(time.time()),user=request.user.username)
                 output = open(os.path.join(settings.REPO_ROOT,project,filename.lower()),'w')
                 output.write(jsonfile)
@@ -212,9 +225,7 @@ def new_note(request,username,project):
                 #if functions.add_file(project,filename):
                 return HttpResponseRedirect("/"+username+"/"+project)
 
-                #else:
-                #    errormesg = "Couldn't add note to the repository."
-                #    return HttpResponseRedirect("/error/"+errormesg.replace(" ","_"))
+
 
         else:
             noteform = NoteForm()
@@ -231,15 +242,104 @@ def error(request,mesg):
     body = {"mesg":mesg.replace("_"," ")}
     return render(request,'error.html',body)
 
+
 @csrf_protect
 def view_note(request, username, project, note):
+    nname = note
+    body ={}
+    body.update(csrf(request))
+    if request.user.is_authenticated():
+        user = User.objects.get(username=request.user)
+        body['user']=user
+
     path = os.path.join(settings.REPO_ROOT,project,note)
     f = open(path+".note",'r')
     info = json.loads(f.read())
-    body ={}
-    body['name']=note
-    body['user']=info['note']['user']
-    body['content']=info['note']['content']
-    body['type']=info['note']['type']
-    print body
+    f.close()
+
+    comments=[]
+    for com in info['comment']:
+        comment={}
+        comment['user']=com['user']
+        comment['body']=com['body']
+        comments.append(comment)
+    body['comments']=comments
+
+    if request.method == "POST":
+        commentform = NoteCommentForm(request.POST,prefix="commentform")
+
+
+        if commentform.is_valid():
+            print "comment valid"
+            note = open(path+".note",'r+')
+            jload = json.loads(note.read())
+            note.close()
+            new = {}
+            new['User'] = commentform.data["user"]
+            new['Body'] = commentform.data["comment"]
+            new['DateTime'] = int(time.time())
+
+            comments=[]
+            for com in jload['comment']:
+                comment={}
+                comment['user']=com['user']
+                comment['body']=com['body']
+                comment['datetime']=com['dateTime']
+                comments.append(comment)
+
+            comments.append(new)
+            jload['comment']=comments
+
+            output = json.dumps(jload)
+            out = open(path+".note",'w+')
+            out.write(output)
+            out.close()
+
+            return HttpResponseRedirect('/'+str(username)+'/'+str(project)+'/'+str(nname)+'/')
+    else:
+        print "both NOT valid"
+        commentform = NoteCommentForm(prefix="commentform")
+
+    noteForm = formset_factory(NoteForm,extra=0)
+    formset = noteForm(initial=[{
+        'content': str(info['note']['content']),
+        'bg_colour' : str(info['note']['bg']),
+        'tx_colour':str(info['note']['tx']),
+        }],prefix="noteForm")
+
+    body['note']=formset
+    body['commentform']=commentform
+
     return render_to_response('view_note.html',body)
+
+@csrf_protect
+def edit_note(request, username, project, note):
+    nname = note
+    path = os.path.join(settings.REPO_ROOT,project,note)
+    f = open(path+".note",'r')
+    info = json.loads(f.read())
+    f.close()
+    body = {}
+    if request.method == "POST":
+        formset = NoteForm(request.POST,prefix="noteForm")
+
+        if formset.is_valid():
+            print "note valid"
+
+            note = open(path+".note",'r+')
+
+            jload = json.loads(note.read())
+            note.close()
+            jload['note']['content'] = formset.data['noteForm-0-content']
+            jload['note']['bg'] = formset.data['noteForm-0-bg_colour']
+            jload['note']['tx'] = formset.data['noteForm-0-tx_colour']
+
+            print jload
+            output = json.dumps(jload)
+            out = open(path+".note",'w+')
+            out.write(output)
+            out.close()
+    else:
+        print "Error could not save"
+
+    return HttpResponseRedirect('/'+str(username)+'/'+str(project)+'/'+str(nname)+'/')

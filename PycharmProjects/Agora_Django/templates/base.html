@@ -1,13 +1,45 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
 <head>
+    {% load staticfiles %}
     <title>{% block title %}{% endblock %}</title>
+    <link rel="shortcut icon" href="{% static "favicon.png" %}">
+
+    <link href="{% static "cs/main.css" %}" type="text/css" rel="stylesheet">
+    {% block cs %}{% endblock %}
+    <script type="text/javascript" src="{% static "js/jquery-1.11.1.js" %}"></script>
+    <script type="application/javascript" src="{% static "js/main.js" %}"></script>
+    {% block js %}{% endblock %}
 </head>
 <body>
-    <h1>Agora</h1>
+<div id="actionBar">
+    <img id="actionbar_icon" src="{% static "images/main_icon_mediam_cream.png" %} " alt="">
+    <h1 id="Title">Agora</h1>
+    {% block pagename %}{% endblock %}
+    {% if user.is_authenticated %}
+        <table id="usertab">
+        <tr>
+
+            <td><a href="{% block creater %}{% endblock %}"><img id="iconNew" src="{% static "images/ic_action_new.png" %}"> </a> </td>
+            <td><a href="{% url 'Agora.views.home' %}"><img id="iconNotePad" src="{%  static "images/notepad.png" %}"></a></td>
+            <td><h3 id="username">{{ user.username }}</h3> </td>
+        </tr>
+               <nav>
+                <div id="nav">
+                    <ul>
+                        <a class="nav" id="profil" href="{% url 'Agora.views.home' %}">Profile</a><br>
+                        <a class="nav" id="Settings" href="">Settings</a><br>
+                        <hr>
+                        <a class="nav" id="logout" href="{% url 'Agora.views.logout_view'  %}">Log out</a>
+                    </ul>
+                </div>
+                </nav>
+        </table>
+    {% else %}
+        <a id="login" href="login/">Log in</a>
+    {% endif %}
+</div>
     {% block content %}{% endblock %}
-    {% block footer %}
-    <hr>
-    {% endblock %}
+    {% block footer %}{% endblock %}
 </body>
 </html>

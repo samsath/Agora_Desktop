@@ -1,36 +1,35 @@
 {% extends "base.html" %}
-
+{% load staticfiles %}
 {% block title %}
-    {{ repo.path }}
+    {{ repo }}
 {% endblock %}
+{% block cs %}
+    <link href="{% static "cs/notes.css" %}" type="text/css" rel="stylesheet">
+{% endblock %}
+{% block js %}
+    <script type="application/javascript" src="{% static "js/freewall.js" %}"></script>
+    <script type="application/javascript">
+        var notelist = JSON.parse('{{ file|safe }}');
+    </script>
+    <script type="application/javascript" src="{% static "js/notes.js" %}"></script>
 
+{% endblock %}
+{% block creater %}{% url 'Agora.views.new_note' user.username repo %}{% endblock %}
+{% block pagename %}
+    <h2 id="projectTitle">{{ reponame }}</h2>
+{% endblock %}
 {% block content %}
+    <div id="contentSection">
     {% if usera %}
         <li><a href="createnote/">Create Note</a></li>
-        <li><a href="/logout">Log Out</a></li>
      {% else %}
         <li><a href="/login">Log In</a></li>
      {% endif %}
+    </div>
 
+    <div id="contentBG">
+    <div id="firewall">
 
-    <table border="0">
-        <tr>
-            <th>notes</th>
-        </tr>
-        {% for commit in file %}
-        <tr>
-            <td><a href="{{ commit.name }}">user is {{ commit.user }} the type is {{ commit.type }} and it contants {{ commit.content }}</a></td>
-
-        </tr>
-        {% endfor %}
-    </table>
-    
-    {% if repo.heads %}
-        <h3>Heads</h3>
-        <ul>
-            {% for head in repo.heads %}
-            <li>{{ head.name }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+    </div>
+    </div>
 {% endblock %}

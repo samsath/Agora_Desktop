@@ -1,12 +1,44 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% block title %}Agora - Create new Note{% endblock %}
-{% block head %}New Note{% endblock %}
+{% block cs %}
+    <link href="{% static "cs/noteCreatePage.css" %}" type="text/css" rel="stylesheet">
+{% endblock %}
+{% block js %}
+    <script type="application/javascript" src="{% static "js/noteCreateedit.js" %}"></script>
+{% endblock %}
+{% block pagename %}
+    <h2 id="projectTitle">New Note </h2>
+{% endblock %}
+
 {% block content %}
-    <h1>New Note</h1>
+
+    <div id="colourPalete">
+        <p style="visibility: hidden; margin: -9px;" id="CPvalue"/></p>
+        <img src="{%  static "images/colours/orange.png"%}" id="ff6600">
+        <img src="{%  static "images/colours/darkgrey.png"%}" id="2d2d2d">
+        <img src="{%  static "images/colours/blue.png"%}" id="104ba9">
+        <img src="{%  static "images/colours/green.png"%}" id="1db312">
+        <img src="{%  static "images/colours/lgrey.png"%}" id="e0e0e0">
+        <img src="{%  static "images/colours/red.png"%}" id="ff270d">
+        <img src="{%  static "images/colours/lblue.png"%}" id="51dee0">
+        <img src="{%  static "images/colours/musturd.png"%}" id="ffcb25">
+        <img src="{%  static "images/colours/brown.png"%}" id="834c24">
+        <img src="{%  static "images/colours/lime.png"%}" id="00ff00">
+     </div>
+
+
+
     <form method="post" action=".">{% csrf_token %}
-        <table border="0">
-            {{ Noteform.as_table }}
-        </table>
-        <input type="submit" value="Create" />
+        <div id="note">
+            {{ Noteform.content }}
+        </div>
+        <div id="notespec">
+            <input id="formSave" type="submit" value="Create" />
+            <img src="{%  static "images/ic_textCol.png"%}" id="txChange">
+            <img src="{%  static "images/ic_bgColour.png"%}" id="bgChange">
+            {{ Noteform.bg_colour }}
+            {{ Noteform.tx_colour }}
+        </div>
     </form>
 {% endblock %}

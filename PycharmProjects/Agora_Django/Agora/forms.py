@@ -49,11 +49,11 @@ class NewRepoForm(forms.Form):
 
 class NoteForm(forms.Form):
 
-    content = forms.CharField(label="Note", widget=forms.Textarea)
-    bg_colour = forms.CharField(max_length=8)
-    tx_colour = forms.CharField(max_length=8)
+    content = forms.CharField(label="Note", widget=forms.Textarea, required=False)
+    bg_colour = forms.CharField(max_length=9, required=False)
+    tx_colour = forms.CharField(max_length=9, required=False)
 
 
 class NoteCommentForm(forms.Form):
-
-    comment = forms.CharField(label="Comment", widget=forms.Textarea)
+    user = forms.CharField(label="name", required=False)
+    comment = forms.CharField(label="Comment", widget=forms.Textarea, required=False)

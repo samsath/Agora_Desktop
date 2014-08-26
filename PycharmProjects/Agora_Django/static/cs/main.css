@@ -1,0 +1,174 @@
+
+body {
+    background-image: url("../images/BackgroundTile1.png");
+    background-repeat: repeat;
+    background-size: calc(9%) auto;
+}
+div#actionBar {
+    background-color: #2d2d2d;
+    height: 50px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+img#actionbar_icon {
+    height: 40px;
+    left: 34px;
+    position: absolute;
+    top: 4px;
+}
+h1#Title {
+    color: #e1e1e1;
+    left: 7%;
+    position: absolute;
+    top: -18px;
+}
+table#usertab {
+    position: absolute;
+    right: 13px;
+    top: -8px;
+}
+img#iconNew {
+    position: relative;
+    right: 65px;
+}
+img#iconSetting {
+    position: relative;
+    right: 25px;
+}
+img#iconNotePad {
+    position: relative;
+    right: 50px;
+}
+h3#username {
+    color: #e1e1e1;
+    position: relative;
+    right: 10px;
+}
+div#nav {
+    background-color: #2d2d2d;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color: #e1e1e1;
+    position: absolute;
+    right: 15px;
+    top: 50px;
+}
+a.nav {
+    color: #e1e1e1;
+    left: -23px;
+    position: relative;
+    text-decoration: none;
+}
+a#login {
+    color: #e1e1e1;
+    font-size: larger;
+    position: absolute;
+    right: 20px;
+    text-decoration: none;
+    top: 12px;
+}
+nav {
+    visibility: hidden;
+}
+hr {
+    position: relative;
+    right: 22px;
+    width: 100px;
+}
+div#loginbox {
+    background-color: #2d2d2d;
+    border: 2px solid #2d2d2d;
+    border-radius: 8px;
+    color: #e1e1e1;
+    height: 200px;
+    left: 40%;
+    position: absolute;
+    top: 35%;
+    width: 250px;
+}
+input#submit {
+    background-color: #e1e1e1;
+    border: 0 solid;
+    border-radius: 0;
+    bottom: 15px;
+    color: #ff6600;
+    height: 27px;
+    left: 61px;
+    position: absolute;
+    width: 122px;
+    font-weight: bold;
+}
+div#registerBox {
+    background-color: #2d2d2d;
+    border: 0 solid;
+    border-radius: 5px;
+    bottom: 85px;
+    height: 40px;
+    left: 95px;
+    position: absolute;
+    width: 100px;
+}
+a#rlink {
+    color: #ff6600;
+    left: 15px;
+    position: relative;
+    text-decoration: none;
+    top: 9px;
+}
+label#username {
+    left: 10px;
+    position: relative;
+    top: 20px;
+}
+label#password {
+    left: 10px;
+    position: relative;
+    top: 40px;
+}
+#id_username {
+    background-color: #e1e1e1;
+    border: 0 solid;
+    border-radius: 0;
+    height: 20px;
+    left: 10px;
+    position: relative;
+    top: 30px;
+    width: 225px;
+}
+#id_password {
+    background-color: #e1e1e1;
+    border: 0 solid;
+    border-radius: 0;
+    height: 20px;
+    left: 10px;
+    position: relative;
+    top: 50px;
+    width: 225px;
+}
+div#loginerror {
+    background-color: #4a4a4a;
+    border: 5px solid #4a4a4a;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    height: 90px;
+    left: -2px;
+    position: absolute;
+    top: -91px;
+    width: 244px;
+}
+div#contentBG {
+    background-color: rgba(225, 225, 225, 0.6);
+    height: calc(100% - 50px);
+    left: 13%;
+    position: absolute;
+    right: 13%;
+    top: 50px;
+}
+h2#projectTitle {
+    color: #e1e1e1;
+    left: 20%;
+    position: relative;
+    top: -9px;
+}
