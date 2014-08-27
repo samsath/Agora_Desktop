@@ -1,0 +1,166 @@
+
+div#registionBox {
+    background: none repeat scroll 0 0 #2d2d2d;
+    border-radius: 5px;
+    height: 200px;
+    left: 35%;
+    position: absolute;
+    top: 30%;
+    width: 400px;
+}
+label#id_user {
+    color: #e1e1e1;
+    left: -9px;
+    position: relative;
+    top: 15px;
+}
+input#id_user {
+    position: relative;
+    right: -7px;
+    top: 15px;
+    width: 220px;
+}
+label#id_email {
+    color: #e1e1e1;
+    left: 11px;
+    position: relative;
+    top: 15px;
+}
+input#id_email {
+    position: relative;
+    right: -8px;
+    top: 15px;
+    width: 220px;
+}
+label#id_password1 {
+    color: #e1e1e1;
+    left: -11px;
+    position: relative;
+    top: 15px;
+}
+input#id_password1 {
+    position: relative;
+    right: -8px;
+    top: 15px;
+    width: 220px;
+}
+label#id_password2 {
+    color: #e1e1e1;
+    left: -11px;
+    position: relative;
+    top: 15px;
+}
+input#id_password2 {
+    position: relative;
+    right: -8px;
+    top: 15px;
+    width: 220px;
+}
+input#regBtn {
+    background: none repeat scroll 0 0 #e1e1e1;
+    border: 0 none;
+    border-radius: 0;
+    color: #ff6600;
+    font-weight: bold;
+    height: 30px;
+    left: 125px;
+    position: relative;
+    top: 28px;
+    width: 150px;
+}
+div#extra {
+    background: none repeat scroll 0 0 #2d2d2d;
+    border-radius: 5px;
+    height: 400px;
+    left: 35%;
+    position: absolute;
+    top: 30%;
+    width: 350px;
+}
+label#id_firstname {
+    color: #e1e1e1;
+    left: 10px;
+    position: relative;
+    top: 15px;
+}
+input#id_firstname {
+    background-color: #e1e1e1;
+    border: 0 none;
+    border-radius: 0;
+    height: 20px;
+    position: relative;
+    right: -8px;
+    top: 15px;
+    width: 220px;
+}
+label#id_surname {
+    color: #e1e1e1;
+    left: 10px;
+    position: relative;
+    top: 20px;
+}
+input#id_surname {
+    background-color: #e1e1e1;
+    border: 0 none;
+    border-radius: 0;
+    height: 20px;
+    position: relative;
+    right: -10px;
+    top: 20px;
+    width: 220px;
+}
+label#id_aboutme {
+    color: #e1e1e1;
+    left: 10px;
+    position: relative;
+    top: 25px;
+}
+textarea#id_aboutme {
+    background-color: #e1e1e1;
+    border: 0 none;
+    border-radius: 0;
+    left: 12px;
+    position: relative;
+    resize: none;
+    top: 25px;
+    width: 315px;
+}
+label#id_photo {
+    color: #e1e1e1;
+    left: 10px;
+    position: relative;
+    top: 31px;
+}
+input#id_photo {
+    color: #e1e1e1;
+    left: 136px;
+    position: relative;
+    top: 10px;
+}
+label#id_role {
+    color: #e1e1e1;
+    left: -258px;
+    position: relative;
+    top: 45px;
+}
+input#id_role {
+    background-color: #e1e1e1;
+    border: 0 none;
+    border-radius: 0;
+    height: 20px;
+    position: relative;
+    right: -61px;
+    top: 22px;
+    width: 265px;
+}
+input#finish {
+    border: 0 none;
+    border-radius: 0;
+    bottom: -50px;
+    color: #ff6600;
+    font-weight: bold;
+    height: 30px;
+    left: 100px;
+    position: relative;
+    width: 150px;
+}

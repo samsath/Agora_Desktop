@@ -1,12 +1,54 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% block title %}Agora - User Registration{% endblock %}
 {% block head %}User Registration{% endblock %}
+{% block cs %}
+    <link href="{% static "cs/register.css" %}" type="text/css" rel="stylesheet">
+{% endblock %}
+{% block pagename %}
+    <h2 id="projectTitle">User Registration</h2>
+{% endblock %}
 {% block content %}
-    <form method="post" action=".">{% csrf_token %}
-        <table border="0">
-            {{ form.as_table }}
-        </table>
-        <input type="submit" value="Register" />
+    <div id="registionBox">
+        <form method="post" action=".">{% csrf_token %}
+            <table border="0">
+                <tbody>
+                    <tr>
+                        <th>
+                            <label id="id_user" for="id_username">Username:</label>
+                        </th>
+                        <td>
+                            <input id="id_user" type="text" required="True" name="username" max_length="30">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label id="id_email" for="id_email">Email address:</label>
+                        </th>
+                        <td>
+                            <input id="id_email" type="text" required="True" name="email" max_length="30">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                             <label id="id_password1" for="id_password1">Password:</label>
+                        </th>
+                        <td>
+                            <input id="id_password1" type="password" required="True" render_value="False" name="password1" max_length="30">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label id="id_password2"for="id_password2">Password:</label>
+                        </th>
+                        <td>
+                            <input id="id_password2" type="password" required="True" render_value="False" name="password2" max_length="30">
+                        </td>
+                    </tr>
+                    </tbody>
+            </table>
+            <input id="regBtn" type="submit" value="Register" />
     </form>
-    <a href="/">Login</a>
+    </div>
+
 {% endblock %}
