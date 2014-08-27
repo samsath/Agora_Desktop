@@ -172,3 +172,28 @@ h2#projectTitle {
     position: relative;
     top: -9px;
 }
+
+div#linkpop {
+    background: none repeat scroll 0 0 #ff6600;
+    left: 35%;
+    position: absolute;
+    top: 35%;
+    visibility: visible;
+    z-index: 3;
+    border-radius: 5px;
+    height: 60px;
+    width: 350px;
+    border: 2px solid #2d2d2d;
+}
+a#Sharelink {
+    position: relative;
+    text-decoration: none;
+    color: #2d2d2d;
+    left: 25px;
+    top: 16px;
+}
+img#iconShare {
+    position: relative;
+    right: 75px;
+}
+

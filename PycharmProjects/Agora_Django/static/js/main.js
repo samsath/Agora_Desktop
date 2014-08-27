@@ -16,4 +16,12 @@ $(document).ready(function(){
               $('nav').css('visibility', 'hidden');
             };
 
-        });
+    $('#iconShare').click(function(){
+        if($('#linkpop').css('visibility')=="visible"){
+            $('#linkpop').css('visibility','hidden');
+        }else{
+            $('#linkpop').css('visibility','visible');
+        }
+    })
+
+});

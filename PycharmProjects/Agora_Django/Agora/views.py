@@ -191,7 +191,11 @@ def repoProject(request,username,project):
 
     if request.user.username == username:
         # make the project editable
-        body = {'usera':username, 'file': json.dumps(data),'repo':project,'reponame':project.replace("_"," ")}
+        repo = Repository.objects.get(name=project).hashurl
+        link = settings.DOMAIN+"/add/user/"+repo
+
+
+        body = {'usera':username, 'file': json.dumps(data),'repo':project,'reponame':project.replace("_"," "),'link':link}
     else:
         # can't be edited just viewed
         body = {'file': json.dumps(data),'repo':project,'reponame':project.replace("_"," ")}
@@ -264,6 +268,10 @@ def view_note(request, username, project, note):
         comment['body']=com['body']
         comments.append(comment)
     body['comments']=comments
+
+    repo = Repository.objects.get(name=project).hashurl
+    link = settings.DOMAIN+"/add/user/"+repo
+    body['link']=link
 
     if request.method == "POST":
         commentform = NoteCommentForm(request.POST,prefix="commentform")
@@ -343,3 +351,18 @@ def edit_note(request, username, project, note):
         print "Error could not save"
 
     return HttpResponseRedirect('/'+str(username)+'/'+str(project)+'/'+str(nname)+'/')
+
+
+@csrf_protect
+@login_required(login_url='/login/')
+def projectAddUser(request,pname):
+    #this will add the person to the new project
+    repo = Repository.objects.get(hashurl=pname)
+    usera = User.objects.get(username=request.user.username)
+
+    repo.user.add(usera)
+    repo.save()
+    return HttpResponseRedirect('/'+str(request.user.username)+'/')
+
+
+

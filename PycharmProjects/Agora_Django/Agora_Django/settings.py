@@ -72,6 +72,8 @@ EMAIL_HOST_USER = 'agoranotes@gmail.com'
 EMAIL_HOST_PASSWORD = 'ng76ax1990'
 EMAIL_USE_TLS = True
 
+DOMAIN = '192.168.1.197:8000'
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 

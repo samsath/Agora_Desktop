@@ -20,6 +20,10 @@ urlpatterns = patterns('',
     url(r'^app/repo/(?P<pname>\w+)/(?P<uname>\w+)/add/$','Agora_android.views.addUserToRepo'),
     url(r'^app/repo/(?P<pname>\w+)/$','Agora_android.views.repoFileList'),
     url(r'^app/data/user/$','Agora_android.views.userRepoData'),
+    url(r'^app/share/note/(?P<pname>\w+)/(?P<nnote>\w+)/$','Agora_android.views.shareNote'),
+    url(r'^app/share/project/(?P<pname>\w+)/$','Agora_android.views.shareProject'),
+    url(r'^app/note/delete/(?P<pname>\w+)/(?P<nnote>\w+)/$','Agora_android.views.deleteNote'),
+    url(r'^add/user/(?P<pname>\w+)/$','Agora.views.projectAddUser'),
     url(r'login/', 'django.contrib.auth.views.login', {'template_name' : 'login.html'}),
     url(r'^register/$','Agora.views.register'),
     url(r'^logout/$','Agora.views.logout_view'),
@@ -32,5 +36,6 @@ urlpatterns = patterns('',
     url(r'^(?P<username>\w+)/(?P<project>\w+)/createnote/$','Agora.views.new_note'),
     url(r'^(?P<username>\w+)/(?P<project>\w+)/(?P<note>\w+)/$','Agora.views.view_note'),
     url(r'^(?P<username>\w+)/(?P<project>\w+)/(?P<note>\w+)/editnote/$','Agora.views.edit_note'),
+
 
 )

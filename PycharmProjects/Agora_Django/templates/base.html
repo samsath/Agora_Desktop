@@ -19,7 +19,7 @@
     {% if user.is_authenticated %}
         <table id="usertab">
         <tr>
-
+            {% if link %}<td><img id="iconShare" src="{% static "images/ic_share.png" %}"></td>{% endif %}
             <td><a href="{% block creater %}{% endblock %}"><img id="iconNew" src="{% static "images/ic_action_new.png" %}"> </a> </td>
             <td><a href="{% url 'Agora.views.home' %}"><img id="iconNotePad" src="{%  static "images/notepad.png" %}"></a></td>
             <td><h3 id="username">{{ user.username }}</h3> </td>
@@ -38,6 +38,12 @@
     {% else %}
         <a id="login" href="login/">Log in</a>
     {% endif %}
+
+
+
+</div>
+<div id="linkpop" style="visibility: hidden;">
+    <a id="Sharelink" href="{{ link }}" target="_self">Share this project just copy this link.</a>
 </div>
     {% block content %}{% endblock %}
     {% block footer %}{% endblock %}

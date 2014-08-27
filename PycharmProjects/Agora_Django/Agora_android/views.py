@@ -9,6 +9,9 @@ from Agora.models import Profiles
 from Agora_Django import settings
 from Agora_git.functions import getFileRepo
 from Agora_git.models import Repository
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import get_template
+from django.template import Context
 import os
 
 
@@ -258,4 +261,43 @@ def addUserToRepo(request,pname,uname):
     ## TODO finish this but so that it adds a user to the repo.
     return None
 
+def shareNote(request,pname,nnote):
+    # As you can only have project not notes on their own
+    #TODO possible add just a url forward here to the note
+    shareProject(request,pname)
+
+
+def shareProject(request,pname):
+    # This is to send out a share project request to any person on the list
+    if request.method.decode('utf-8') == "POST":
+        session_key = request.POST['session_key']
+        email = request.POST['email']
+        rname = Repository.objects.get(hashurl=pname).name
+        link = settings.DOMAIN+"/add/user/"+pname
+
+
+        subject = "Project Invite"
+        from_email = settings.EMAIL_HOST_USER
+        to = email
+
+        htmly = get_template('email.html')
+        plain = str(htmly)
+
+        fill = Context({ 'project':rname.replace("_"," "),'link':link})
+        text_content  = plain.render(fill)
+        html_content = htmly.render(fill)
+        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+
+
+def deleteNote(request,pname,nnote):
+    # this is to delete the sellected note. Instead of deleting the file it is just renamed to a .delete so it is clear
+    filename = nnote+".note"
+    rname = Repository.objects.get(hashurl=pname).name
+    path = os.path.join(settings.REPO_ROOT,rname)
+    result = []
+    result += [ file for file in os.listdir(path) if file.endswith('.note')]
+    if filename in result:
+        os.rename(filename,filename.replace(".note",".delete"))
 
