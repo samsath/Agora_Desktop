@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block pagename %} <h2 id="projectTitle"> Page not found</h2>{% endblock %}
+{% block creater %}{% url 'Agora.views.CreateRepoForUser' user.username %}{% endblock %}
+{% block content %}
+    <div id="notfound">
+        <h1>Page not found</h1>
+
+        <p>Sorry, but the requested page could not be found.</p>
+    </div>
+{% endblock %}

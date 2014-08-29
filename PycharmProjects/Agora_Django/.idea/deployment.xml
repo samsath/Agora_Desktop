@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="agora.samhipwell.org.uk">
+    <serverData>
+      <paths name="agora.samhipwell.org.uk">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/agora" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath path="/.local/bin/django-admin.py" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
+

@@ -10,6 +10,8 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import socket
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -20,9 +22,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'p1($+45!k)pbtuuw4jc&2%)wf!c2#d11!(4)u2&phv(ba%@7xy'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if socket.gethostname() == 'sam-Vanguard':
+    DEBUG = TEMPLATE_DEBUG = True
+else:
+    DEBUG = TEMPLATE_DEBUG = False
 
-TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = ['localhost',]
 
@@ -71,6 +75,9 @@ EMAIL_PORT = "587"
 EMAIL_HOST_USER = 'agoranotes@gmail.com'
 EMAIL_HOST_PASSWORD = 'ng76ax1990'
 EMAIL_USE_TLS = True
+EMAIL_SUBJECT_PREFIX = '[Agora]'
+
+SEND_BROKEN_LINK_EMAILS = True
 
 DOMAIN = '192.168.1.197:8000'
 
