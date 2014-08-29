@@ -213,14 +213,23 @@ def new_note(request,username,project):
 
             if noteform.is_valid():
                 # create the json here on the temp dir
+                if noteform.cleaned_data['bg_colour'] == "":
+                    backg = "#e1e1e1"
+                else:
+                    backg = noteform.cleaned_data['bg_colour']
+
+                if noteform.cleaned_data['tx_colour'] == "":
+                    textc = "#2d2d2d"
+                else:
+                    textc = noteform.cleaned_data['tx_colour']
 
                 jsonfile = json.dumps({"note":{
                     "user":request.user.username,
                     "datetime": int(time.time()),
                     "type":"html",
                     "content": noteform.cleaned_data['content'],
-                    "bg": noteform.cleaned_data['bg_colour'],
-                    "tx": noteform.cleaned_data['tx_colour'],
+                    "bg": backg,
+                    "tx": textc,
                 },"comment":[]})
                 filename = u"{date}{user}server.note".format(date=int(time.time()),user=request.user.username)
                 output = open(os.path.join(settings.REPO_ROOT,project,filename.lower()),'w')
