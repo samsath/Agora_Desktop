@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from Agora.models import Profiles
 from Agora_Django import settings
+from Agora_git import functions
 from Agora_git.functions import getFileRepo
 from Agora_git.models import Repository
 from django.core.mail import EmailMultiAlternatives
@@ -196,6 +197,7 @@ def repoGetNote(requst,pname,nnote):
 
 
 def repoUploadNote(request,pname,nnote):
+    print "New Note to save to server"
     reply = {}
     print request.POST
     if request.method.decode('utf-8') == "POST":
@@ -206,53 +208,63 @@ def repoUploadNote(request,pname,nnote):
         print user
         if(user != 0):
             filename = nnote+".note"
-            content = request.POST['file']
-
+            content = json.loads(request.POST['file'])
+            print content
             output = open(os.path.join(settings.REPO_ROOT,rname,filename.lower()),'w')
-            output.write(content)
+            output.write(json.dumps(content))
             output.close()
 
 
 def repoCheckNote(request,pname,nnote):
-    reply = {}
+    print "Update of NOTE +========"
     print request.POST
     if request.method.decode('utf-8') == "POST":
         session_key = request.POST['session_key']
         print session_key
         rname = Repository.objects.get(hashurl=pname).name
+        print rname
         user = userFromSession(session_key)
         print user
-        reply=[]
-        if(user != 0):
+        if user != 0:
             path = os.path.join(settings.REPO_ROOT,rname,nnote)
-            filename = nnote+".note"
+            if path.endswith(".note"):
+                filename = path
+            else:
+                filename = path+".note"
+            print filename
             content = request.POST['file']
-            snote = open(path+".note",'r')
+            print content
+            snote = open(filename,'r')
+            print snote
             fromDevice = json.loads(content)
-            fromServer = json.loads(snote)
-            if(fromDevice==fromServer):
+            fromServer = json.loads(snote.read())
+            snote.close()
+
+            if fromDevice == fromServer:
                 # the files are the same
-                l ={}
-                l['File']="3"
-                reply.append(l)
-                return HttpResponse(json.dumps(reply), content_type="application/json")
+                return HttpResponse(json.dumps(fromDevice), content_type="application/json")
+
             else:
                 #The files are different so now compare them.
-                new = []
-                if fromDevice['note']['datetime']>fromServer['note']['datetime']:
+                new = {}
+                if int(fromDevice['note']['datetime']) > int(fromServer['note']['datetime']):
                     # the device is newer than server
-                    new.append(fromDevice['note'])
+                    new['note']=fromDevice['note']
 
                 else:
                     # server is newer than device
-                    new.append(fromServer['note'])
-                if fromDevice['comment'] == fromServer['comment']:
-                    new.append(fromDevice['comment'])
-                else:
-                    #comments are different so need to work on this bi
-                    #TODO change this to compare then and then add them together
-                    new.append(fromDevice['comment'])
+                    new['note']=fromServer['note']
+
+                complist = fromDevice['comment'] + fromServer['comment']
+                result = [dict(compare) for compare in set(tuple(item.items()) for item in complist)]
+                new['comment']=result
+
                 # once everything has been compared it returns the new file.
+                print new
+                print json.dumps(new)
+                snote = open(filename,'w+')
+                snote.write(json.dumps(new))
+                snote.close()
                 return HttpResponse(json.dumps(new), content_type="application/json")
 
 
@@ -301,3 +313,12 @@ def deleteNote(request,pname,nnote):
     if filename in result:
         os.rename(filename,filename.replace(".note",".delete"))
 
+def createProject(request):
+    if request.method.decode('utf-8') == "POST":
+        session_key = request.POST['session_key']
+        pname = request.POST['project']
+        print "project name = "+pname
+        user = userFromSession(session_key)
+        if(user != 0):
+            functions.create_repo(pname)
+            functions.user_repo(pname,user)

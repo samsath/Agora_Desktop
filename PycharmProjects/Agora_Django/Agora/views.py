@@ -292,16 +292,16 @@ def view_note(request, username, project, note):
             jload = json.loads(note.read())
             note.close()
             new = {}
-            new['User'] = commentform.data["user"]
-            new['Body'] = commentform.data["comment"]
-            new['DateTime'] = int(time.time())
+            new['user'] = commentform.data["user"]
+            new['body'] = commentform.data["comment"]
+            new['datetime'] = int(time.time())
 
             comments=[]
             for com in jload['comment']:
                 comment={}
                 comment['user']=com['user']
                 comment['body']=com['body']
-                comment['datetime']=com['dateTime']
+                comment['datetime']=com['datetime']
                 comments.append(comment)
 
             comments.append(new)

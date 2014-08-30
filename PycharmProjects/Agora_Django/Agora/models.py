@@ -14,4 +14,6 @@ class Notification(models.Model):
     body = models.TextField()
     datetofrom = models.DateTimeField()
 
+
+
     # user, blur, photo, , first name, last name, email
