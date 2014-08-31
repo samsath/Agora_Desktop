@@ -127,13 +127,8 @@ def profile(request, username):
             for file in result:
                 f = open(os.path.join(path,file),'r')
                 info = json.loads(f.read())
-                d ={}
-
-                d['name']=item.name+"/"+file[0:-5]
-                d['user']=info['note']['user']
-                d['content']=info['note']['content']
-                d['tx']=info['note']['tx']
-                d['bg']=info['note']['bg']
+                d = {'name': item.name + "/" + file[0:-5], 'user': info['note']['user'],
+                     'content': info['note']['content'], 'tx': info['note']['tx'], 'bg': info['note']['bg']}
 
                 data.append(d)
             #item.name = item.name.replace("_"," ")
@@ -179,20 +174,15 @@ def repoProject(request,username,project):
     for file in result:
         f = open(os.path.join(path,file),'r')
         info = json.loads(f.read())
-        d ={}
-
-        d['name']=file[0:-5]
-        d['user']=info['note']['user']
-        d['content']=info['note']['content']
-        d['tx']=info['note']['tx']
-        d['bg']=info['note']['bg']
+        d = {'name': file[0:-5], 'user': info['note']['user'], 'content': info['note']['content'],
+             'tx': info['note']['tx'], 'bg': info['note']['bg']}
 
         data.append(d)
 
     if request.user.username == username:
         # make the project editable
         repo = Repository.objects.get(name=project).hashurl
-        link = settings.DOMAIN+"/add/user/"+repo
+        link = "../../add/user/"+repo
 
 
         body = {'usera':username, 'file': json.dumps(data),'repo':project,'reponame':project.replace("_"," "),'link':link}
@@ -272,14 +262,12 @@ def view_note(request, username, project, note):
 
     comments=[]
     for com in info['comment']:
-        comment={}
-        comment['user']=com['user']
-        comment['body']=com['body']
+        comment= {'user': com['user'], 'body': com['body']}
         comments.append(comment)
     body['comments']=comments
 
     repo = Repository.objects.get(name=project).hashurl
-    link = settings.DOMAIN+"/add/user/"+repo
+    link = "../../add/user/"+repo
     body['link']=link
 
     if request.method == "POST":
@@ -291,17 +279,11 @@ def view_note(request, username, project, note):
             note = open(path+".note",'r+')
             jload = json.loads(note.read())
             note.close()
-            new = {}
-            new['user'] = commentform.data["user"]
-            new['body'] = commentform.data["comment"]
-            new['datetime'] = int(time.time())
+            new = {'user': commentform.data["user"], 'body': commentform.data["comment"], 'datetime': int(time.time())}
 
             comments=[]
             for com in jload['comment']:
-                comment={}
-                comment['user']=com['user']
-                comment['body']=com['body']
-                comment['datetime']=com['datetime']
+                comment= {'user': com['user'], 'body': com['body'], 'datetime': com['datetime']}
                 comments.append(comment)
 
             comments.append(new)

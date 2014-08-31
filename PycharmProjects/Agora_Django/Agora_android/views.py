@@ -20,7 +20,6 @@ import os
 def appLogins(request, username):
     logout(request)
 
-
     if request.method.decode('utf-8') == "POST":
         username = request.POST['username'].decode('utf-8')
         password = request.POST['password'].decode('utf-8')
@@ -51,13 +50,11 @@ def appLogins(request, username):
 
             else:
 
-
                 c['logged'] = "Failed"
 
                 return HttpResponse(simplejson.dumps(c), content_type="application/json")
 
         else:
-
 
             c['logged'] = "Failed"
             return HttpResponse(simplejson.dumps(c), content_type="application/json")
@@ -65,7 +62,6 @@ def appLogins(request, username):
 
 @csrf_exempt
 def appRegister(request):
-
     if request.method.decode('utf-8') == "POST":
 
         print request.POST
@@ -116,20 +112,18 @@ def userRepoData(request):
 
         user = userFromSession(session_key)
         print user
-        if(user == 0):
+        if (user == 0):
 
             reply['reply'] = "error Session id"
             return HttpResponse(json.dumps(reply), content_type="application/json")
         else:
 
             repositories = Repository.objects.filter(user=user);
-            list =[]
+            list = []
             reply['reply'] = "worked"
             list.append(reply)
             for rep in repositories:
-                r = {}
-                r['name'] = rep.name
-                r['url'] = rep.hashurl
+                r = {'name': rep.name, 'url': rep.hashurl}
                 list.append(r)
 
             print json.dumps(list)
@@ -155,8 +149,7 @@ def userFromSession(skey):
 
 
 @csrf_exempt
-def repoFileList(request,pname):
-
+def repoFileList(request, pname):
     reply = {}
     print request.POST
     if request.method.decode('utf-8') == "POST":
@@ -165,7 +158,7 @@ def repoFileList(request,pname):
 
         user = userFromSession(session_key)
         print user
-        if(user == 0):
+        if (user == 0):
 
             reply['reply'] = "error Session id"
             return HttpResponse(json.dumps(reply), content_type="application/json")
@@ -175,9 +168,7 @@ def repoFileList(request,pname):
                 result = getFileRepo(rname)
                 reply = []
                 for rep in result:
-                    l={}
-                    l['name']=rep[0].lower()
-                    l['time']=rep[1]
+                    l = {'name': rep[0].lower(), 'time': rep[1]}
                     reply.append(l)
 
                 print reply
@@ -187,16 +178,17 @@ def repoFileList(request,pname):
         reply['reply'] = "error Session id"
         return HttpResponse(json.dumps(reply), content_type="application/json")
 
-def repoGetNote(requst,pname,nnote):
+
+def repoGetNote(requst, pname,nnote ):
     rname = Repository.objects.get(hashurl=pname).name
-    path = os.path.join(settings.REPO_ROOT,rname,nnote)
-    f = open(path+".note",'r')
+    path = os.path.join(settings.REPO_ROOT, rname, nnote)
+    f = open(path + ".note", 'r')
     info = json.loads(f.read())
     print info
     return HttpResponse(json.dumps(info), content_type="application/json")
 
 
-def repoUploadNote(request,pname,nnote):
+def repoUploadNote(request, pname, nnote):
     print "New Note to save to server"
     reply = {}
     print request.POST
@@ -206,16 +198,16 @@ def repoUploadNote(request,pname,nnote):
         rname = Repository.objects.get(hashurl=pname).name
         user = userFromSession(session_key)
         print user
-        if(user != 0):
-            filename = nnote+".note"
+        if (user != 0):
+            filename = nnote + ".note"
             content = json.loads(request.POST['file'])
             print content
-            output = open(os.path.join(settings.REPO_ROOT,rname,filename.lower()),'w')
+            output = open(os.path.join(settings.REPO_ROOT, rname, filename.lower()), 'w')
             output.write(json.dumps(content))
             output.close()
 
 
-def repoCheckNote(request,pname,nnote):
+def repoCheckNote(request, pname, nnote):
     print "Update of NOTE +========"
     print request.POST
     if request.method.decode('utf-8') == "POST":
@@ -226,15 +218,15 @@ def repoCheckNote(request,pname,nnote):
         user = userFromSession(session_key)
         print user
         if user != 0:
-            path = os.path.join(settings.REPO_ROOT,rname,nnote)
+            path = os.path.join(settings.REPO_ROOT, rname, nnote)
             if path.endswith(".note"):
                 filename = path
             else:
-                filename = path+".note"
+                filename = path + ".note"
             print filename
             content = request.POST['file']
             print content
-            snote = open(filename,'r')
+            snote = open(filename, 'r')
             print snote
             fromDevice = json.loads(content)
             fromServer = json.loads(snote.read())
@@ -245,48 +237,47 @@ def repoCheckNote(request,pname,nnote):
                 return HttpResponse(json.dumps(fromDevice), content_type="application/json")
 
             else:
-                #The files are different so now compare them.
+                # The files are different so now compare them.
                 new = {}
                 if int(fromDevice['note']['datetime']) > int(fromServer['note']['datetime']):
                     # the device is newer than server
-                    new['note']=fromDevice['note']
+                    new['note'] = fromDevice['note']
 
                 else:
                     # server is newer than device
-                    new['note']=fromServer['note']
+                    new['note'] = fromServer['note']
 
                 complist = fromDevice['comment'] + fromServer['comment']
                 result = [dict(compare) for compare in set(tuple(item.items()) for item in complist)]
-                new['comment']=result
+                new['comment'] = result
 
                 # once everything has been compared it returns the new file.
                 print new
                 print json.dumps(new)
-                snote = open(filename,'w+')
+                snote = open(filename, 'w+')
                 snote.write(json.dumps(new))
                 snote.close()
                 return HttpResponse(json.dumps(new), content_type="application/json")
 
 
-
-def addUserToRepo(request,pname,uname):
-    ## TODO finish this but so that it adds a user to the repo.
+def addUserToRepo(request, pname, uname):
+    # # TODO finish this but so that it adds a user to the repo.
     return None
 
-def shareNote(request,pname,nnote):
+
+def shareNote(request, pname, nnote):
     # As you can only have project not notes on their own
-    #TODO possible add just a url forward here to the note
-    shareProject(request,pname)
+    # TODO possible add just a url forward here to the note
+    shareProject(request, pname)
 
 
-def shareProject(request,pname):
+def shareProject(request, pname):
     # This is to send out a share project request to any person on the list
     if request.method.decode('utf-8') == "POST":
         session_key = request.POST['session_key']
         email = request.POST['email']
         rname = Repository.objects.get(hashurl=pname).name
-        link = settings.DOMAIN+"/add/user/"+pname
-
+        link = settings.DOMAIN + "/add/user/" + pname
 
         subject = "Project Invite"
         from_email = settings.EMAIL_HOST_USER
@@ -295,30 +286,31 @@ def shareProject(request,pname):
         htmly = get_template('email.html')
         plain = str(htmly)
 
-        fill = Context({ 'project':rname.replace("_"," "),'link':link})
-        text_content  = plain.render(fill)
+        fill = Context({'project': rname.replace("_", " "), 'link': link})
+        text_content = plain.render(fill)
         html_content = htmly.render(fill)
         msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
         msg.attach_alternative(html_content, "text/html")
         msg.send()
 
 
-def deleteNote(request,pname,nnote):
+def deleteNote(request, pname, nnote):
     # this is to delete the sellected note. Instead of deleting the file it is just renamed to a .delete so it is clear
-    filename = nnote+".note"
+    filename = nnote + ".note"
     rname = Repository.objects.get(hashurl=pname).name
-    path = os.path.join(settings.REPO_ROOT,rname)
+    path = os.path.join(settings.REPO_ROOT, rname)
     result = []
-    result += [ file for file in os.listdir(path) if file.endswith('.note')]
+    result += [file for file in os.listdir(path) if file.endswith('.note')]
     if filename in result:
-        os.rename(filename,filename.replace(".note",".delete"))
+        os.rename(filename, filename.replace(".note", ".delete"))
+
 
 def createProject(request):
     if request.method.decode('utf-8') == "POST":
         session_key = request.POST['session_key']
         pname = request.POST['project']
-        print "project name = "+pname
+        print "project name = " + pname
         user = userFromSession(session_key)
-        if(user != 0):
+        if (user != 0):
             functions.create_repo(pname)
-            functions.user_repo(pname,user)
+            functions.user_repo(pname, user)

@@ -13,7 +13,7 @@
 </head>
 <body>
 <div id="actionBar">
-    <img id="actionbar_icon" src="{% static "images/main_icon_mediam_cream.png" %} " alt="">
+    <a href="{{ SITE_URL }}"><img id="actionbar_icon" src="{% static "images/main_icon_mediam_cream.png" %} " alt=""></a>
     <h1 id="Title">Agora</h1>
     {% block pagename %}{% endblock %}
     {% if user.is_authenticated %}
