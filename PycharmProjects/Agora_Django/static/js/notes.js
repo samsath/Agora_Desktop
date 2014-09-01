@@ -31,7 +31,7 @@ $(document).ready(function(){
             .replace('{bgcolour}',notelist[n].bg)
             .replace('{txcolour}',notelist[n].tx)
             .replace('{name}',notelist[n].name)
-            .replace('{content}',notelist[n].content.slice(0,176));
+            .replace('{content}',notelist[n].content.slice(0,128));
 
 
 

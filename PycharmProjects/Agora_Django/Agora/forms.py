@@ -2,8 +2,8 @@ import re
 from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-from Agora_git.functions import get_completelist
 from Agora_git.models import Repository
+
 
 
 class registrationForm(forms.Form):
@@ -52,6 +52,7 @@ class NoteForm(forms.Form):
     content = forms.CharField(label="Note", widget=forms.Textarea, required=False)
     bg_colour = forms.CharField(max_length=9, required=False)
     tx_colour = forms.CharField(max_length=9, required=False)
+
 
 
 class NoteCommentForm(forms.Form):

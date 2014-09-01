@@ -9,7 +9,7 @@
 {% block js %}
     <script type="application/javascript" src="{% static "js/freewall.js" %}"></script>
     <script type="application/javascript">
-        var notelist = JSON.parse('{{ file|safe }}');
+        var notelist = JSON.parse('{{ file|escapejs }}');
     </script>
     <script type="application/javascript" src="{% static "js/notes.js" %}"></script>
 
