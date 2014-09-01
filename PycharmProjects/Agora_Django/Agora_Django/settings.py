@@ -41,7 +41,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Agora',
-    'Agora_git',
     'Agora_android',
 )
 
@@ -70,16 +69,16 @@ DATABASES = {
 }
 
 #Email
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = "587"
-EMAIL_HOST_USER = 'agoranotes@gmail.com'
-EMAIL_HOST_PASSWORD = 'ng76ax1990'
+EMAIL_HOST = 'simply.asmallorange.com'
+EMAIL_PORT = "465"
+EMAIL_HOST_USER = 'admin@agoranote.com'
+EMAIL_HOST_PASSWORD = 'lcars1990'
 EMAIL_USE_TLS = True
 EMAIL_SUBJECT_PREFIX = '[Agora]'
 
 SEND_BROKEN_LINK_EMAILS = True
 
-DOMAIN = '192.168.1.197:8000'
+DOMAIN = 'agoranote.com'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -106,6 +105,9 @@ STATICFILES_DIRS = (
 
 REPO_URL = 'repo/'
 REPO_ROOT = os.path.join(BASE_DIR,  "repo")
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = 'media/'
 
 
 TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates'))

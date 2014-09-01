@@ -2,11 +2,14 @@ import re
 from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-from Agora_git.models import Repository
-
+from Agora.models import Repository
 
 
 class registrationForm(forms.Form):
+    """
+    Form for the registration of new user's the basic.
+    With a password check to make sure they are the same.
+    """
 
     username = forms.RegexField(regex=r'^\w+$', widget=forms.TextInput(attrs=dict(required=True, max_length=30)), label=_("Username"), error_messages={ 'invalid': _("This value must contain only letters, numbers and underscores.") })
     email = forms.EmailField(widget=forms.TextInput(attrs=dict(required=True, max_length=30)), label=_("Email address"))
@@ -27,6 +30,9 @@ class registrationForm(forms.Form):
         return self.cleaned_data
 
 class profileForm(forms.Form):
+    """
+    This is the profile input so to have the user name and profile image with other info relatted to them personally
+    """
 
     firstname = forms.CharField(label="First Name", required=True)
     surname = forms.CharField(label="Last Name", required=True)
@@ -35,6 +41,9 @@ class profileForm(forms.Form):
     role = forms.CharField(label="Your Role")
 
 class NewRepoForm(forms.Form):
+    """
+    This is to create a new project so it very basic and just a single input.
+    """
 
     reponame = forms.CharField(label="Project Name", required=True, max_length=200, error_messages={ 'invalid': _("This value must contain only letters, numbers and underscores. As well be unique.") })
 
@@ -48,6 +57,9 @@ class NewRepoForm(forms.Form):
 
 
 class NoteForm(forms.Form):
+    """
+    The form for the note so is used to create and edit the notes.
+    """
 
     content = forms.CharField(label="Note", widget=forms.Textarea, required=False)
     bg_colour = forms.CharField(max_length=9, required=False)
@@ -56,5 +68,8 @@ class NoteForm(forms.Form):
 
 
 class NoteCommentForm(forms.Form):
+    """
+    This is the comment section of the note.
+    """
     user = forms.CharField(label="name", required=False)
     comment = forms.CharField(label="Comment", widget=forms.Textarea, required=False)

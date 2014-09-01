@@ -16,6 +16,14 @@ $(document).ready(function(){
     $('#id_noteForm-0-content').attr('readonly',false);
   });
 
+  $('#archiveButton').click(function(){
+      if($('#archive').css('visibility')=='hidden'){
+         $('#archive').css('visibility',"visible");
+      }else{
+          $('#archive').css('visibility',"hidden");
+      }
+  });
+
   $('#bgChange').click(function(){
       if ($('#colourPalete').css('visibility')=='visible'&& $('#CPvalue').text()=="bg"){
           $('#colourPalete').css('visibility','hidden');

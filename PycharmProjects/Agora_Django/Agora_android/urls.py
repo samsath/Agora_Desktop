@@ -1,4 +1,7 @@
 from django.conf.urls import url
+#
+# This contains the link for the app to communicate to. Not accessable from website.
+#
 
 urlpatterns = [
     url(r'^register/$','Agora_android.views.appRegister'),

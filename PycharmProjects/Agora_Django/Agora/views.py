@@ -1,4 +1,5 @@
 from django.forms.formsets import formset_factory
+from Agora import function
 from Agora.forms import *
 from Agora.models import *
 from django.contrib.auth.decorators import login_required
@@ -6,10 +7,8 @@ from django.contrib.auth import logout, authenticate, login
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect
 from django.shortcuts import render_to_response, render
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.template import RequestContext
-from Agora_git import functions
-from Agora_git.models import *
 import json
 import time
 from Agora_Django import settings
@@ -120,7 +119,7 @@ def profile(request, username):
     else:
         data = []
         for item in repolist:
-            path = os.path.join(settings.REPO_ROOT,item.name)
+            path = os.path.join(settings.REPO_ROOT,item.loc)
             result = []
             result += [ file for file in os.listdir(path) if file.endswith('.note')]
 
@@ -152,8 +151,8 @@ def CreateRepoForUser(request,username):
 
             if form.is_valid():
                 namerepo = form.cleaned_data['reponame']
-                if functions.create_repo(namerepo):
-                    functions.user_repo(namerepo,request.user)
+                if function.create_repo(namerepo,username):
+                    function.user_repo(namerepo,request.user)
                     return HttpResponseRedirect('/'+request.user.username+'/'+namerepo)
                 else:
                     errormesg = "Could not create a new project for some reason, possilbe one already exists."
@@ -167,7 +166,11 @@ def CreateRepoForUser(request,username):
 
 @csrf_protect
 def repoProject(request,username,project):
-    path = os.path.join(settings.REPO_ROOT,project)
+    """
+    This displays the note content of a specific project of the user.
+    """
+    pname = username+"__"+project
+    path = os.path.join(settings.REPO_ROOT,pname)
     result = []
     result += [ file for file in os.listdir(path) if file.endswith('.note')]
     data = []
@@ -181,7 +184,7 @@ def repoProject(request,username,project):
 
     if request.user.username == username:
         # make the project editable
-        repo = Repository.objects.get(name=project).hashurl
+        repo = Repository.objects.get(loc=pname).hashurl
         link = "../../add/user/"+repo
 
 
@@ -195,8 +198,12 @@ def repoProject(request,username,project):
 @csrf_protect
 @login_required(login_url='/login/')
 def new_note(request,username,project):
-    repo = Repository.objects.get(name__contains=project,user=request.user)
+    """
+    Creates a new note
+    """
 
+    repo = Repository.objects.get(name__contains=project,user=request.user)
+    pname = username+"__"+project
     if(repo is not 0):
         if request.method == "POST":
             noteform = NoteForm(request.POST)
@@ -220,15 +227,17 @@ def new_note(request,username,project):
                     "content": noteform.cleaned_data['content'],
                     "bg": backg,
                     "tx": textc,
-                },"comment":[]})
+                },"comment":[],"archive":[{
+                    "user":request.user.username,
+                    "datetime":int(time.time()),
+                    "body": noteform.cleaned_data['content'],
+                }]})
                 filename = u"{date}{user}server.note".format(date=int(time.time()),user=request.user.username)
-                output = open(os.path.join(settings.REPO_ROOT,project,filename.lower()),'w')
+                output = open(os.path.join(settings.REPO_ROOT,pname,filename.lower()),'w')
                 output.write(jsonfile)
                 output.close()
                 #if functions.add_file(project,filename):
                 return HttpResponseRedirect("/"+username+"/"+project)
-
-
 
         else:
             noteform = NoteForm()
@@ -242,12 +251,18 @@ def new_note(request,username,project):
 
 
 def error(request,mesg):
+    """
+    Normal error page which is just a black page if the reason if something goes wrong.
+    """
     body = {"mesg":mesg.replace("_"," ")}
     return render(request,'error.html',body)
 
 
 @csrf_protect
 def view_note(request, username, project, note):
+    """
+    This is the view note content so it just shows the user
+    """
     nname = note
     body ={}
     body.update(csrf(request))
@@ -255,7 +270,8 @@ def view_note(request, username, project, note):
         user = User.objects.get(username=request.user)
         body['user']=user
 
-    path = os.path.join(settings.REPO_ROOT,project,note)
+    pname = username+"__"+project
+    path = os.path.join(settings.REPO_ROOT,pname,note)
     f = open(path+".note",'r')
     info = json.loads(f.read())
     f.close()
@@ -266,7 +282,14 @@ def view_note(request, username, project, note):
         comments.append(comment)
     body['comments']=comments
 
-    repo = Repository.objects.get(name=project).hashurl
+    archive=[]
+    for arch in info['archive']:
+        ar={"user":arch['user'],"body":arch['body'],"datetime":arch['datetime']}
+        archive.append(ar)
+    body["archive"]=archive
+
+
+    repo = Repository.objects.get(loc=pname).hashurl
     link = "../../add/user/"+repo
     body['link']=link
 
@@ -279,13 +302,9 @@ def view_note(request, username, project, note):
             note = open(path+".note",'r+')
             jload = json.loads(note.read())
             note.close()
+
             new = {'user': commentform.data["user"], 'body': commentform.data["comment"], 'datetime': int(time.time())}
-
-            comments=[]
-            for com in jload['comment']:
-                comment= {'user': com['user'], 'body': com['body'], 'datetime': com['datetime']}
-                comments.append(comment)
-
+            comments = jload['comment']
             comments.append(new)
             jload['comment']=comments
 
@@ -314,7 +333,8 @@ def view_note(request, username, project, note):
 @csrf_protect
 def edit_note(request, username, project, note):
     nname = note
-    path = os.path.join(settings.REPO_ROOT,project,note)
+    pname = username+"__"+project
+    path = os.path.join(settings.REPO_ROOT,pname,note)
     f = open(path+".note",'r')
     info = json.loads(f.read())
     f.close()
@@ -332,6 +352,11 @@ def edit_note(request, username, project, note):
             jload['note']['content'] = formset.data['noteForm-0-content']
             jload['note']['bg'] = formset.data['noteForm-0-bg_colour']
             jload['note']['tx'] = formset.data['noteForm-0-tx_colour']
+
+            archivelist = jload['archive']
+            arch ={"user":username,"datetime":int(time.time()),"body":formset.data['noteForm-0-content']}
+            archivelist.append(arch)
+            jload['archive']=archivelist
 
             print jload
             output = json.dumps(jload)

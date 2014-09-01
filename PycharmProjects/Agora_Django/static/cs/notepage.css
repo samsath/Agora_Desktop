@@ -48,7 +48,7 @@ p#notecontent {
     margin: 5px;
 }
 p#user {
-    color: #e1e1e1;
+    color: #ff6600;
     font-size: small;
     font-style: italic;
     left: 10px;
@@ -210,3 +210,57 @@ img#834c24{
 img#00ff00{
     position: relative;
 }
+
+div#archiveButton {
+    background: none repeat scroll 0 0 #2e2e2e;
+    border: 0 solid;
+    border-radius: 5px;
+    height: 40px;
+    left: 40px;
+    position: absolute;
+    bottom: 20px;
+    width: 175px;
+}
+h3#archiveName {
+    bottom: 10px;
+    color: #ff6600;
+    left: 25px;
+    position: relative;
+}
+div#archive {
+    position: absolute;
+    background: #e1e1e1;
+    boder: 5px solid #e1e1e1;
+    border-radius: 5px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    left: 35%;
+    height: 300px;
+    width: 400px;
+    top: 20%;
+    visibility: hidden;
+}
+p#Auser {
+    color: #ff6600;
+    font-size: small;
+    font-style: italic;
+    left: 10px;
+    position: relative;
+    top: -10px;
+}
+div.arc {
+    background: none repeat scroll 0 0 #999999;
+    border: 1px solid #999999;
+    border-radius: 5px;
+    margin: 5px;
+    z-index: -1;
+}
+p#Abody {
+    font-size: medium;
+    left: 5px;
+    position: relative;
+    top: -25px;
+}
+
+
+

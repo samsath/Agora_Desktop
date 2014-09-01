@@ -50,7 +50,22 @@
 
     </form>
     {% endfor %}
+    <div id="archiveButton">
+        <h3 id="archiveName">Note History</h3>
+    </div>
 
+
+    <div id="archive">
+    {% for arch in archive %}
+        <div class="arc">
+             <p id="Auser">{{ arch.user }}</p>
+             <p id="Adate">{{ arch.date|date:"D j b Y f A" }}</p>
+             <p id="Abody">{{ arch.body }}</p>
+
+            </div>
+    {% endfor %}
+
+    </div>
 
     <div id="newComment">
 

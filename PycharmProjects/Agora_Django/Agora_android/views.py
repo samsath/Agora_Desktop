@@ -7,9 +7,9 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from Agora.models import Profiles
 from Agora_Django import settings
-from Agora_git import functions
-from Agora_git.functions import getFileRepo
-from Agora_git.models import Repository
+from Agora import function
+from Agora.function import getFileRepo
+from Agora.models import Repository
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
@@ -163,7 +163,7 @@ def repoFileList(request, pname):
             reply['reply'] = "error Session id"
             return HttpResponse(json.dumps(reply), content_type="application/json")
         else:
-            rname = Repository.objects.get(hashurl=pname).name
+            rname = Repository.objects.get(hashurl=pname).loc
             if rname is not None:
                 result = getFileRepo(rname)
                 reply = []
@@ -180,7 +180,7 @@ def repoFileList(request, pname):
 
 
 def repoGetNote(requst, pname,nnote ):
-    rname = Repository.objects.get(hashurl=pname).name
+    rname = Repository.objects.get(hashurl=pname).loc
     path = os.path.join(settings.REPO_ROOT, rname, nnote)
     f = open(path + ".note", 'r')
     info = json.loads(f.read())
@@ -194,7 +194,7 @@ def repoUploadNote(request, pname, nnote):
     if request.method.decode('utf-8') == "POST":
         session_key = request.POST['session_key']
         print session_key
-        rname = Repository.objects.get(hashurl=pname).name
+        rname = Repository.objects.get(hashurl=pname).loc
         user = userFromSession(session_key)
         print user
         if (user != 0):
@@ -212,7 +212,7 @@ def repoCheckNote(request, pname, nnote):
     if request.method.decode('utf-8') == "POST":
         session_key = request.POST['session_key']
         print session_key
-        rname = Repository.objects.get(hashurl=pname).name
+        rname = Repository.objects.get(hashurl=pname).loc
         print rname
         user = userFromSession(session_key)
         print user
@@ -296,7 +296,7 @@ def shareProject(request, pname):
 def deleteNote(request, pname, nnote):
     # this is to delete the sellected note. Instead of deleting the file it is just renamed to a .delete so it is clear
     filename = nnote + ".note"
-    rname = Repository.objects.get(hashurl=pname).name
+    rname = Repository.objects.get(hashurl=pname).loc
     path = os.path.join(settings.REPO_ROOT, rname)
     result = []
     result += [file for file in os.listdir(path) if file.endswith('.note')]
@@ -311,5 +311,5 @@ def createProject(request):
         print "project name = " + pname
         user = userFromSession(session_key)
         if (user != 0):
-            functions.create_repo(pname)
-            functions.user_repo(pname, user)
+            function.create_repo(pname,user)
+            function.user_repo(pname, user)

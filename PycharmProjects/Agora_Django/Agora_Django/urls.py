@@ -5,6 +5,9 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
 from Agora_Django import settings
 
+#
+# This is the main url for most of the site for the main web interation
+#
 
 admin.autodiscover()
 
