@@ -190,7 +190,6 @@ def repoGetNote(requst, pname,nnote ):
 
 def repoUploadNote(request, pname, nnote):
     print "New Note to save to server"
-    reply = {}
     print request.POST
     if request.method.decode('utf-8') == "POST":
         session_key = request.POST['session_key']
