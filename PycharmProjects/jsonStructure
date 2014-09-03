@@ -1,14 +1,21 @@
 {"note":[
-	"Creator":username,
-	"DateTime":Date and time of the creation,
+	"user":username,
+	"datetime":Date and time of the creation,
 	"type":Type of the note
-	"Content":the content or external file location
-	"bg_colour":#Hex colour of background
-	"tx_colour":#Hex colour for the text
+	"content":the content or external file location
+	"bg":#Hex colour of background
+	"tx":#Hex colour for the text
 	],
 	"Comment":[
-		{"User": username,
-		"DataTime":Time of the commet,
-		"Body":Comment text
+		{"sser": username,
+		"datetime":Time of the commet,
+		"body":Comment text
 		}
-		]}
+		],
+		"archive":[
+			{"user": username,
+			"datetime":time,
+			"body":text,
+			}
+			]
+}
