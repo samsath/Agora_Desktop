@@ -250,6 +250,10 @@ def repoCheckNote(request, pname, nnote):
                 result = [dict(compare) for compare in set(tuple(item.items()) for item in complist)]
                 new['comment'] = result
 
+                archivelist = fromDevice['archive'] + fromServer['archive']
+                result = [dict(compare) for compare in set(tuple(item.items()) for item in archivelist)]
+                new['archive'] = result
+
                 # once everything has been compared it returns the new file.
                 print new
                 print json.dumps(new)
@@ -311,5 +315,5 @@ def createProject(request):
         print "project name = " + pname
         user = userFromSession(session_key)
         if (user != 0):
-            function.create_repo(pname,user)
+            function.create_repo(pname,user.username)
             function.user_repo(pname, user)
